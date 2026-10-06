@@ -1,0 +1,241 @@
+/* Removendo margens e preenchimentos padrão do navegador */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif; /* Fonte simples e universal */
+        }
+
+        /* Configuração do Grid principal solicitada */
+        body {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            grid-template-rows: 60px auto 1fr;
+            height: 100vh; /* Ocupa 100% da altura da tela */
+            background-color: #ffffff;
+        }
+
+        /* Removendo estilos de lista padrão para as tags menu e ul */
+        menu, ul {
+            list-style: none;
+        }
+
+        /* Tirando estilo padrão de todos os botões */
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* HEADER (Ocupa as duas colunas da primeira linha) */
+        header {
+            grid-column: 1 / 3;
+            grid-row: 1;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        header h1 {
+            color: #1a3b5c;
+            font-size: 22px;
+        }
+
+        header h1 span {
+            color: #1a65c4; /* Letra O em azul */
+        }
+
+        /* Estilo da barra de busca simples */
+        form {
+            display: flex;
+            align-items: center;
+            background-color: #f1f5f9;
+            padding: 8px 12px;
+            border-radius: 6px;
+            width: 400px;
+        }
+
+        form input {
+            background: none;
+            border: none;
+            outline: none;
+            margin-left: 10px;
+            width: 100%;
+            color: #475569;
+        }
+
+        /* Área do perfil de usuário */
+        header menu {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        header menu button {
+            color: #64748b;
+        }
+
+        figure {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        figure img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid #cbd5e1;
+        }
+
+        figcaption {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        /* ASIDE (Barra lateral) */
+        aside {
+            grid-column: 1;
+            grid-row: 2 / 4; /* Ocupa da linha 2 até o final */
+            background-color: #f8f9fa;
+            border-right: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+
+        aside section {
+            margin-bottom: 25px;
+        }
+
+        aside h3 {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-bottom: 10px;
+            margin-left: 20px;
+        }
+
+        .sidebar-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 10px 20px;
+            color: #475569;
+            font-size: 14px;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-btn:hover {
+            background-color: #e2e8f0;
+        }
+
+        /* Classe de estado ativo no menu lateral */
+        .sidebar-btn.active {
+            background-color: #1a65c4;
+            color: #ffffff;
+            border-left-color: #0f3d7a;
+            font-weight: bold;
+        }
+
+        /* NAV (Onde fica o Ribbon inteiro) */
+        nav.ribbon-container {
+            grid-column: 2;
+            grid-row: 2;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Guias do Ribbon (INÍCIO, TICKETS, etc) */
+        menu.tabs {
+            display: flex;
+            border-bottom: 1px solid #e2e8f0;
+            padding-left: 10px;
+        }
+
+        .tab-btn {
+            padding: 10px 15px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #64748b;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-btn:hover {
+            color: #1e293b;
+            background-color: #f8f9fa;
+        }
+
+        .tab-btn.active {
+            color: #1a65c4;
+            border-bottom-color: #1a65c4;
+        }
+
+        /* Botões do Ribbon estilo Microsoft */
+        menu.ribbon-tools {
+            display: flex;
+            background-color: #f8f9fa;
+            padding: 5px 10px;
+            min-height: 80px;
+        }
+
+        .ribbon-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 15px;
+            border-right: 1px solid #cbd5e1; /* Separador entre grupos */
+        }
+        
+        /* Retira a borda do último grupo */
+        .ribbon-group:last-child {
+            border-right: none; 
+        }
+
+        menu.ribbon-buttons {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 5px;
+        }
+
+        .ribbon-buttons button {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            border-radius: 4px;
+            min-width: 60px;
+            color: #1a65c4;
+        }
+
+        .ribbon-buttons button:hover {
+            background-color: #e2e8f0;
+        }
+
+        .ribbon-buttons button span {
+            font-size: 10px;
+            color: #475569;
+            margin-top: 5px;
+            text-align: center;
+        }
+
+        .ribbon-group small {
+            font-size: 9px;
+            color: #94a3b8;
+            font-weight: bold;
+            margin-bottom: 2px;
+        }
+
+        /* MAIN (Área principal de conteúdo) */
+        main {
+            grid-column: 2;
+            grid-row: 3;
+            background-color: #ffffff; /* Fundo branco conforme solicitado */
+            padding: 20px;
+        }

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HORUS - Support Management System</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <script src="script/javascript.js" defer></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+    <header>
+        <section>
+            <h1>H<span>O</span>RUS</h1>
+        </section>
+
+        <form>
+            <i data-lucide="search" style="width: 16px; height: 16px; color: #94a3b8;"></i>
+            <input type="text" placeholder="Pesquisar chamados, ativos, usuários...">
+        </form>
+
+        <menu>
+            <button><i data-lucide="bell"></i></button>
+            <button><i data-lucide="settings"></i></button>
+            <button><i data-lucide="help-circle"></i></button>
+            <figure>
+                <img src="https://placehold.co/150x150/e2e8f0/475569?text=JD" alt="Jane Doe">
+                <figcaption>Jane Doe</figcaption>
+                <i data-lucide="chevron-down" style="width: 16px; height: 16px; color: #94a3b8;"></i>
+            </figure>
+        </menu>
+    </header>
+
+    <aside>
+        <nav>
+            <section>
+                <h3>OPERAÇÕES</h3>
+                <ul>
+                    <li>
+                        <button class="sidebar-btn active">
+                            <i data-lucide="monitor" style="width: 18px; height: 18px;"></i> Área de Trabalho
+                        </button>
+                    </li>
+                    <li>
+                        <button class="sidebar-btn">
+                            <i data-lucide="layout-grid" style="width: 18px; height: 18px;"></i> Visão Operacional
+                        </button>
+                    </li>
+                    <li>
+                        <button class="sidebar-btn">
+                            <i data-lucide="alert-triangle" style="width: 18px; height: 18px;"></i> Incidentes Críticos
+                        </button>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>GESTÃO & SLA</h3>
+                <ul>
+                    <li>
+                        <button class="sidebar-btn">
+                            <i data-lucide="bar-chart-2" style="width: 18px; height: 18px;"></i> Relatórios & SLA
+                        </button>
+                    </li>
+                    <li>
+                        <button class="sidebar-btn">
+                            <i data-lucide="users" style="width: 18px; height: 18px;"></i> Escalas & Equipes
+                        </button>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    </aside>
+
+    <!-- CONTAINER DO RIBBON -->
+    <nav class="ribbon-container">
+        <!-- Guias Superiores -->
+        <menu class="tabs">
+            <li><button class="tab-btn active">INÍCIO</button></li>
+            <li><button class="tab-btn">TICKETS</button></li>
+            <li><button class="tab-btn">ITSM</button></li>
+            <li><button class="tab-btn">CLIENTES</button></li>
+        </menu>
+
+        <!-- Ferramentas estilo Ribbon -->
+        <menu class="ribbon-tools">
+            
+            <!-- Grupo 1 -->
+            <section class="ribbon-group">
+                <menu class="ribbon-buttons">
+                    <li>
+                        <button>
+                            <i data-lucide="plus-square"></i>
+                            <span>Novo<br>Ticket</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <i data-lucide="user-check"></i>
+                            <span>Atribuir<br>Rápido</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <i data-lucide="filter"></i>
+                            <span>Filtrar<br>Exibição</span>
+                        </button>
+                    </li>
+                </menu>
+                <small>ÁREA DE TRABALHO</small>
+            </section>
+
+            <!-- Grupo 2 -->
+            <section class="ribbon-group">
+                <menu class="ribbon-buttons">
+                    <li>
+                        <button>
+                            <i data-lucide="download"></i>
+                            <span>Exportar<br>Dados</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <i data-lucide="refresh-cw"></i>
+                            <span>Atualizar<br>Fila</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <i data-lucide="kanban-square"></i>
+                            <span>Kanban</span>
+                        </button>
+                    </li>
+                </menu>
+                <small>AÇÕES DE GESTÃO</small>
+            </section>
+
+            <!-- Grupo 3 -->
+            <section class="ribbon-group">
+                <menu class="ribbon-buttons">
+                    <li>
+                        <button>
+                            <i data-lucide="send"></i>
+                            <span>Disparo<br>Massa</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button>
+                            <i data-lucide="message-square"></i>
+                            <span>Msg<br>Interna</span>
+                        </button>
+                    </li>
+                </menu>
+                <small>COMUNICAÇÃO</small>
+            </section>
+
+        </menu>
+    </nav>
+
+    <main>
+    </main>
+
+</body>
+</html>
