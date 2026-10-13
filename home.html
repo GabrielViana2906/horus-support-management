@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="javascript/script.js" defer></script>
+</head>
+
+<body>
+    
+    <header>
+        <img src="img/logo.png" alt="logo" class="logo">
+
+        <form action="">
+            <input type="text" title="Digite o termo que deseja buscar" placeholder="🔍︎​  Pesquisar chamados, artigos, usuários, ativos..." class="search-bar">
+        </form>
+
+        <div class="user-actions">
+            <button class="notifications">
+                <img src="img/bell-icon.png" alt="notification-icon">
+            </button>
+            
+            <button class="settings">
+                <img src="img/settings-icon.png" alt="settings-icon">
+            </button>
+
+            <span class="divisor"></span>
+
+            <div class="user-profile">
+                <img src="img/user.png" alt="user-profile">
+                <div>
+                    <p class="username">John Doe</p>
+                    <p class="status">Online</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <aside>
+        <nav id="sidebar" class="sidebar">
+            <h3>Operations</h3>
+            <ul>
+                <li><a href="#" class="active">Workspace</a></li>
+                <li><a href="#">Operational View</a></li>
+                <li><a href="#">Knowledge Base</a></li>
+                <li><a href="#">Critical Incidents</a></li>
+                <li><a href="#">IT Assets</a></li>
+            </ul>
+
+            <h3>Management</h3>
+            <ul>
+                <li><a href="#">Reports</a></li>
+                <li><a href="#">Schedule</a></li>
+            </ul>
+
+            <h3>Administration</h3>
+            <ul>
+                <li><a href="#">Global Configurations</a></li>
+                <li><a href="#">User Management</a></li>
+            </ul>
+        </nav>
+    </aside>
+    
+    <main>
+        <section class="workspace">
+            <div class="toolbar">
+                <nav class="guides">
+                    <ul>
+                        <li class="active"><a href="#">Tickets</a></li>
+                        <li><a href="#">Customers</a></li>
+                        <li><a href="#">Communication</a></li>
+                        <li><a href="#">Chat</a></li>
+                    </ul>
+                </nav>
+
+                <div class="ticket-actions">
+                    <div class="subsection">
+                        <button id="create-ticket"><img src="img/bell-icon.png" alt="create-ticket-icon"><br><span>Create Ticket</span></button>
+                        <button id="quick-assign"><img src="img/bell-icon.png" alt="quick-assign-icon"><br><span>Quick Assign</span></button>
+                        <button id="advanced-search"><img src="img/bell-icon.png" alt="advanced-search-icon"><br><span>Advanced Search</span></button>
+                        <br><p class="section-title">Ações Rápidas</p>
+                    </div>
+
+                    <span class="divisor"></span>
+
+                    <div class="subsection">
+                        <button id="export-data"><img src="img/bell-icon.png" alt="export-data-icon"><br><span>Export Data</span></button>
+                        <button id="import-data"><img src="img/bell-icon.png" alt="import-data-icon"><br><span>Import Data</span></button>
+                        <button id="form-edit"><img src="img/bell-icon.png" alt="form-edit-icon"><br><span>Form Edit</span></button>
+                        <br><p class="section-title">Dados</p>
+                    </div>
+                    
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Horus Support Management. All rights reserved.</p>
+    </footer>
+</body>
+</html>
