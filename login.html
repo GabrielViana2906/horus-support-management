@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hórus | Acesso ao Portal</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="login-page">
+
+        <div class="login-container">
+
+                <div class="login-header">
+                    <h1>Hórus</h1>
+                    <p>Portal Unificado de Atendimento &amp; Governança</p>
+                </div>
+
+            <section class="login-card">
+
+                <div class="login-user-type">
+                     
+                    <button type="button" class="active">
+                        <img src="img/shield.png" alt="shield" class="shield-icon">
+                        Sou Agente
+                    </button>
+
+                    
+                    <button type="button">
+                        <img src="img/briefcase.png" alt="briefcase" class="briefcase-icon">
+                        Sou Cliente
+                    </button>
+                </div>
+
+                <button type="button" class="login-google">
+                    <img src="img/google.png" alt="google" class="google-icon">
+                    
+                    Continuar com o Google
+                </button>
+
+                <div class="login-separator">
+                    <span></span>
+                    <p>OU CONTINUE COM SEU E-MAIL CORPORATIVO</p>
+                    <span></span>
+                </div>
+
+                <form class="login-form">
+
+                    <div class="form-group">
+                        <label for="email">E-mail Corporativo</label>
+
+                        <div class="input-container">
+                            <i class="fa-solid fa-at"></i>
+                            <input
+                                type="email"
+                                id="email"
+                                placeholder="seu.email@empresa.com"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="password-label">
+                            <label for="password">
+                                Chave de Segurança / Senha
+                            </label>
+
+                            <a href="#">Esqueci minha senha</a>
+                        </div>
+
+                        <div class="input-container">
+                            <i class="fa-solid fa-key"></i>
+                            <input
+                                type="password"
+                                id="password"
+                                placeholder="Digite sua senha"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <label class="remember-option">
+                        <input type="checkbox">
+                        <span>Lembrar deste computador</span>
+                    </label>
+
+                    <button type="submit" class="login-button">
+                        Acessar Workspace
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                    <button type="button" class="register-button">
+                        Não possui conta? Clique aqui para se cadastrar
+                    </button>
+
+                </form>
+
+            </section>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Horus Support Management. All rights reserved.</p>
+    </footer>
+</body>
+</html>
