@@ -6,7 +6,7 @@
     box-sizing: border-box;
 }
 
-body.dashboard {
+.home {
     display: grid;
     grid-template-areas:
         "header header"
@@ -19,7 +19,7 @@ body.dashboard {
 }
 
 @media (max-width: 700px) {
-    body.dashboard {
+    .home {
         grid-template-areas:
             "header"
             "sidebar"
