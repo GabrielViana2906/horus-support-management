@@ -4,6 +4,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 body.dashboard {
@@ -12,10 +13,10 @@ body.dashboard {
         "header header"
         "sidebar main"
         "footer footer";
-    overflow: hidden;
     grid-template-columns: 200px 1fr;
     grid-template-rows: auto 1fr auto;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
 }
 
 @media (max-width: 700px) {
@@ -26,8 +27,9 @@ body.dashboard {
             "main"
             "footer";
         grid-template-columns: 1fr;
-        overflow: auto;
         grid-template-rows: auto auto 1fr auto;
+        height: 100vh;
+        overflow: hidden;
     }
 }
 header {
@@ -304,13 +306,12 @@ footer {
     background-color: #f6f8fc;
     font-family: 'Inter', sans-serif;
     color: #172536;
-    overflow-y: auto;
 }
 
 .login-container {
     width: 100%;
     max-width: 640px;
-    padding: 40px;
+    padding: 27px;
     background-color: #ffffff;
     box-shadow: 0 2px 12px rgba(30, 45, 70, 0.05);
 }
@@ -334,7 +335,7 @@ footer {
 }
     
 .login-card {
-    padding: 24px 30px 30px;
+    padding: 20px 24px 24px;
     background-color: #ffffff;
     border-radius: 0 0 12px 12px;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.12);
@@ -409,8 +410,6 @@ footer {
     object-fit: contain;
     flex-shrink: 0;
 }
-
-/* Separador */
 .login-separator {
     display: flex;
     align-items: center;
