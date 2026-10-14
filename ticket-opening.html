@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abertura de Chamado Técnico</title>
+  <link rel="stylesheet" href="css/ticket-opening-style.css">
+  <script src="javascript/ticket-opening-script.js"></script>
+</head>
+<body>
+  <header>
+        <img src="img/logo.png" alt="logo" class="logo">
+
+        <form action="">
+            <input type="text" title="Digite o termo que deseja buscar" placeholder="🔍︎​  Pesquisar chamados, artigos, usuários, ativos..." class="search-bar">
+        </form>
+
+        <div class="user-actions">
+            <button class="notifications">
+                <img src="img/bell-icon.png" alt="notification-icon">
+            </button>
+            
+            <button class="settings">
+                <img src="img/settings-icon.png" alt="settings-icon">
+            </button>
+
+            <span class="divisor"></span>
+
+            <div class="user-profile">
+                <img src="img/user.png" alt="user-profile">
+                <div>
+                    <p class="username">John Doe</p>
+                    <p class="status">Online</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+  <main class="page">
+    <div class="breadcrumbs">Chamados <span>›</span> <strong>Novo Protocolo</strong></div>
+    <h1>Abertura de Chamado Técnico</h1>
+
+    <section class="steps">
+      <div class="step active"><span class="step-number">1</span><div><strong>Informações Essenciais <em>EM PREENCHIMENTO</em></strong><p>Classificação, solicitante e diagnóstico básico</p></div></div>
+      <div class="step"><span class="step-number">2</span><div><strong>Detalhamento Técnico <em class="optional">Opcional / Recomendado</em></strong><p>Ativos CMDB, topologia, logs e roteamento N2/N3</p></div></div>
+    </section>
+
+    <form id="ticketForm" class="form-card">
+      <div class="field">
+        <div class="label-row"><label for="subject">Assunto Resumido da Ocorrência <span class="required">*</span></label></div>
+        <div class="input-wrap"><span class="field-icon">☷</span><input id="subject" required value="Falha de autenticação no ERP Protheus após atualização de VPN corporativa"></div>
+      </div>
+
+      <div class="two-columns">
+        <div class="field"><label for="client">Cliente</label><div class="input-wrap"><span class="field-icon blue">♟</span><input id="client" value="mariana.lima@empresa.com.br"></div></div>
+        <div class="field"><label for="contact">Meio de Contato</label><div class="input-wrap"><span class="field-icon">✉</span><input id="contact" value="mariana.lima@empresa.com.br"></div></div>
+      </div>
+
+      <div class="field">
+        <label>Tipo da Ocorrência <span class="required">*</span></label>
+        <div class="choice-grid" id="typeChoices">
+          <button type="button" class="choice selected" data-value="Incidente / Problema"><span>ⓘ</span>Incidente / Problema</button>
+          <button type="button" class="choice" data-value="Requisição de Serviço"><span>☑</span>Requisição de Serviço</button>
+          <button type="button" class="choice" data-value="Dúvida Operacional"><span>▣</span>Dúvida Operacional</button>
+          <button type="button" class="choice" data-value="Licença"><span>⚿</span>Licença</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Impacto no Negócio (SLA) <span class="required">*</span></label>
+        <div class="impact-grid" id="impactChoices">
+          <button type="button" class="impact" data-value="Normal"><strong>Normal</strong><span af>Afeta apenas um colaborador, sem paralisação de processos críticos. Resposta em no máximo 8h.</span></button>
+          <button type="button" class="impact selected urgent" data-value="Urgente"><strong><i></i>Urgente</strong><span>Processo parcial travado; departamento inteiro em espera de fechamento. Resposta em no máximo 4h.</span></button>
+          <button type="button" class="impact critical" data-value="Crítico"><strong><i></i>Crítico</strong><span>Interrupção de operação, faturamento ou produção. Resposta em no máximo 1h.</span></button>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="label-row"><label for="description">Descrição Detalhada do Problema <span class="required">*</span></label></div>
+        <div class="editor">
+          <div class="toolbar"><button type="button" data-format="bold" title="Negrito"><b>B</b></button><button type="button" data-format="italic" title="Itálico"><i>I</i></button><button type="button" title="Lista">☷</button><button type="button" title="Inserir código">▣</button><button type="button" title="Link">↗</button><span id="charCount">0 caracteres</span></div>
+          <textarea id="description" required maxlength="2000">Mariana relata que ao abrir a rotina de Fechamento Contábil no TOTVS Protheus, a tela exibe o erro "ADVP| Gateway 10060 - Connection Timed Out".
+Ocorreu após a reinicialização da máquina e a instalação da versão atualizada do cliente AnyConnect VPN corporativo.</textarea>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Capturas de Tela, Logs e Evidências Técnicas</label>
+        <div class="upload-layout">
+          <label class="dropzone" for="fileInput"><span class="cloud">♧</span><strong>Arraste arquivos ou clique para anexar</strong><span>PNG, JPG, PDF, TXT, LOG (Máx 25MB)</span><span class="upload-button">♧ Adicionar capturas ou logs</span><input id="fileInput" type="file" multiple accept=".png,.jpg,.jpeg,.pdf,.txt,.log"></label>
+          <div class="file-list" id="fileList"><div class="file-item"><div class="file-symbol">▧</div><div class="file-info"><strong>erro_timeout_vpn.png</strong><span>842 KB · PNG</span><small>Verificado e anexado</small></div><button type="button" class="delete-file" title="Remover arquivo">▤</button><button type="button" class="preview-file">◎ Visualizar</button></div></div>
+        </div>
+      </div>
+    </form>
+
+    <footer class="bottom-bar">
+      <a href="home.html"><button class="text-button" id="discardBtn">× Descartar Rascunho</button></a>
+      <div class="footer-actions"><button class="secondary-button" id="submitBtn">▷ &nbsp;Enviar Ticket Agora</button><button class="primary-button" id="nextBtn">Avançar para Detalhamento Técnico <span>→</span></button></div>
+    </footer>
+    <div id="toast" class="toast" role="status"></div>
+  </main>
+</body>
+</html>
