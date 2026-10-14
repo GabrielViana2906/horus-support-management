@@ -335,6 +335,88 @@ main {
                 margin: 0 10px;
         }
     }
+
+    .dashboard-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        overflow: hidden; 
+
+        .welcome-message {
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            color: #131c2f;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .ticket-list-container {
+            flex: 1;
+            overflow-y: auto;
+            border: 1px solid #e1e2e4;
+            border-radius: 5px;
+            background-color: #ffffff;
+
+            .ticket-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-family: 'Inter', sans-serif;
+                font-size: 12px;
+                text-align: left;
+
+                th, td {
+                    padding: 12px 15px;
+                    border-bottom: 1px solid #e1e2e4;
+                }
+
+                th {
+                    background-color: #f2f4f6;
+                    color: #717783;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    font-size: 11px;
+                    position: sticky;
+                    top: 0;
+                    z-index: 1; 
+                }
+
+                tr:hover {
+                    background-color: #f2f4f640;
+                    transition: 0.2s ease-in-out;
+                }
+
+                td {
+                    color: #131c2f;
+                }
+
+                .status-badge {
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    font-size: 10px;
+                    font-weight: bold;
+                    text-transform: uppercase;
+
+                    &.open {
+                        background-color: #e3f2fd;
+                        color: #29478b;
+                    }
+                    &.pending {
+                        background-color: #fff3e0;
+                        color: #e65100;
+                    }
+                    &.progress {
+                        background-color: #e8f5e9;
+                        color: #2e7d32;
+                    }
+                    &.closed {
+                        background-color: #f2f4f6;
+                        color: #717783;
+                    }
+                }
+            }
+        }
+    }
 }
 
 footer {
