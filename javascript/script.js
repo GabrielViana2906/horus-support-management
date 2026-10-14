@@ -10,3 +10,18 @@ abas.forEach(aba => {
         this.classList.add('active');
     });
 });
+
+const buttons = document.querySelectorAll(".login-user-type .tipo-login");
+
+buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+
+        
+        buttons.forEach((b) => {
+            b.classList.remove("active");
+        });
+
+        
+        button.classList.add("active");
+    });
+});
