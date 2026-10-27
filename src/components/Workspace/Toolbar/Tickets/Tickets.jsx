@@ -1,25 +1,39 @@
 import { useNavigate } from "react-router";
+import VerticalButton from '../Buttons/VerticalButton';
+import SplitButton from "../Buttons/SplitButton";
 
 function Tickets() {
 
     const navigate = useNavigate();
-    
+
+    const ticketOptions = [
+        {
+            id: 'technical',
+            label: 'Technical Ticket',
+            image: '/assets/data.png',
+            action: () => navigate('/newTicket')
+        },
+        {
+            id: 'financial',
+            label: 'Financial Ticket',
+            image: '/assets/filter.png',
+            action: () => navigate('/newTicket')
+        },
+        {
+            id: 'general',
+            label: 'General Ticket',
+            image: '/assets/import-data.png',
+            action: () => navigate('/newTicket')
+        }
+    ];
+
     return (
         <div className="ticket-actions">
                                     <div className="subsection">
                                         <div className="v-buttons">
-                                            <button id="create-ticket" className="v-button" onClick={() => navigate('/newTicket')}>
-                                                <img src="assets/create-ticket.png" alt="create-ticket.png" /><br />
-                                                <span>Create Ticket</span>
-                                            </button>
-                                            <button id="quick-assign" className="v-button">
-                                                <img src="assets/quick-assign.png" alt="quick-assign-icon" /><br />
-                                                <span>Quick Assign</span>
-                                            </button>
-                                            <button id="advanced-search" className="v-button">
-                                                <img src="assets/advanced-search.png" alt="advanced-search-icon" /><br />
-                                                <span>Advanced<br />Search</span>
-                                            </button>
+                                            <VerticalButton text="Create Ticket" image="/assets/create-ticket.png" action={() => navigate('/newTicket')}/>
+                                            <VerticalButton text="Quick Assign" image="/assets/quick-assign.png" action={() => navigate('/newTicket')}/>
+                                            <VerticalButton text="Advanced Search" image="/assets/advanced-search.png" action={() => navigate('/newTicket')}/>
                                         </div>
                                         <p className="section-title">Ações Rápidas</p>
                                     </div>
@@ -28,18 +42,10 @@ function Tickets() {
 
                                     <div className="subsection">
                                         <div className="v-buttons">
-                                            <button id="export-data" className="v-button">
-                                                <img src="assets/export-data.png" alt="export-data-icon" /><br />
-                                                <span>Export Data</span>
-                                            </button>
-                                            <button id="import-data" className="v-button">
-                                                <img src="assets/import-data.png" alt="import-data-icon" /><br />
-                                                <span>Import Data</span>
-                                            </button>
-                                            <button id="form-edit" className="v-button">
-                                                <img src="assets/form-edit.png" alt="form-edit-icon" /><br />
-                                                <span>Form Edit</span>
-                                            </button>
+                                            <VerticalButton text="Import Data" image="/assets/import-data.png" action={() => navigate('/newTicket')}/>
+                                            <VerticalButton text="Export Data" image="/assets/export-data.png" action={() => navigate('/newTicket')}/>
+                                            <VerticalButton text="Form Edit" image="/assets/form-edit.png" action={() => navigate('/newTicket')}/>
+                                            <SplitButton text="Split Button" image="/assets/form-edit.png" action={() => navigate('/newTicket')} options={ticketOptions}/>
                                         </div>
                                         <p className="section-title">Dados</p>
                                     </div>

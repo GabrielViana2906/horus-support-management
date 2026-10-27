@@ -1,11 +1,9 @@
 import { useState } from 'react';
+import Guide from './Guide/Guide.jsx';
 import './ToolbarStyle.css';
 import Tickets from './Tickets/Tickets.jsx';
-import { useNavigate } from 'react-router';
 
 function Toolbar() {
-
-    const navigate = useNavigate();
     const [activeGuideItem, setActiveGuideItem] = useState('Tickets');
 
     function renderizeButtons() {
@@ -30,44 +28,10 @@ function Toolbar() {
     return (
         <div className="toolbar">
             <div className="toolbar-content">
-                <nav className="guides">
-                    <ul>
-                        <li
-                            className={activeGuideItem === 'Tickets' ? 'active' : ''}
-                            onClick={() => {setActiveGuideItem('Tickets')}}>
-                            <spam>
-                                Tickets
-                            </spam>
-                        </li>
-
-                        <li
-                            className={activeGuideItem === 'Customers' ? 'active' : ''}
-                            onClick={() => setActiveGuideItem('Customers')}
-                        >
-                            <a href="#" onClick={(event) => event.preventDefault()}>
-                                Customers
-                            </a>
-                        </li>
-
-                        <li
-                            className={activeGuideItem === 'Communication' ? 'active' : ''}
-                            onClick={() => setActiveGuideItem('Communication')}
-                        >
-                            <a href="#" onClick={(event) => event.preventDefault()}>
-                                Communication
-                            </a>
-                        </li>
-
-                        <li
-                            className={activeGuideItem === 'Automation' ? 'active' : ''}
-                            onClick={() => setActiveGuideItem('Automation')}
-                        >
-                            <a href="#" onClick={(event) => event.preventDefault()}>
-                                Automation
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                <Guide
+                    activeGuideItem={activeGuideItem}
+                    setActiveGuideItem={setActiveGuideItem}
+                />
 
                 {renderizeButtons()}
             </div>

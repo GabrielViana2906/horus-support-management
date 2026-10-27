@@ -6,7 +6,6 @@
     min-height: max-content;
     padding: 0;
     background-color: var(--cor-fundo-principal);
-
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
@@ -24,43 +23,6 @@
     display: flex;
     flex-direction: column;
     min-width: 900px;
-
-    .guides {
-        font-family: var(--fonte-inter);
-        font-size: 12px;
-        width: 100%;
-        margin-bottom: 5px;
-        background-color: var(--cor-toolbar-guia-fundo);
-
-        ul {
-            display: flex;
-            list-style: none;
-            justify-content: start;
-
-            li {
-                padding: 6px 12px;
-                margin-right: 10px;
-                font-weight: 400;
-
-                a {
-                    text-decoration: none;
-                    color: var(--cor-sidebar-texto);
-                }
-            }
-
-            .active {
-                color: var(--cor-workspace-guia-ativa);
-                font-weight: bold;
-                border-bottom: 3px solid var(--cor-workspace-guia-ativa);
-                background-color: var(--cor-fundo-desabilitado);
-
-                a {
-                    text-decoration: none;
-                    color: var(--cor-workspace-guia-ativa);
-                }
-            }
-        }
-    }
 
     .ticket-actions {
         display: flex;
@@ -81,25 +43,7 @@
             flex-direction: column;
         }
 
-        .v-button {
-            background-color: transparent;
-            color: var(--cor-texto-principal);
-            border: solid 1px var(--cor-fundo-ativo);
-            padding: 10px;
-            margin: 0 5px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: var(--fonte-inter);
-            font-size: 10px;
-            height: 70px;
 
-            img {
-                width: 20px;
-                height: 20px;
-                margin-bottom: 5px;
-                opacity: 50%;
-            }
-        }
 
         .h-button {
             display: flex;

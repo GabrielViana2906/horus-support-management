@@ -1,0 +1,49 @@
+.v-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-wrap:initial;
+
+    background-color: transparent;
+    color: var(--cor-texto-principal);
+
+    border: 1px solid var(--cor-fundo-ativo);
+    border-radius: 5px;
+
+    padding: 7px;
+    margin: 0 5px;
+
+    cursor: pointer;
+    font-family: var(--fonte-inter);
+    font-size: 10px;
+
+    height: 70px;
+    width: 70px;
+}
+
+.v-button img {
+    width: 20px;
+    height: 20px;
+    margin-bottom: 5px;
+    opacity: 0.5;
+}
+
+.v-button:hover {
+    transition: 0.3s ease-in-out;
+    background-color: var(--cor-fundo-hover);
+    border-color: var(--cor-fundo-ativo);
+}
+
+.v-button:disabled {
+    background-color: var(--cor-fundo-desabilitado);
+    color: var(--cor-texto-secundario);
+    cursor: default;
+}
+
+.v-button span {
+    white-space: normal;
+    overflow-wrap: break-word;
+    text-align: center;
+    max-width: 100%;
+}
