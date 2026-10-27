@@ -1,4 +1,9 @@
+import { useNavigate } from "react-router";
+
 function Tickets() {
+
+    const navigate = useNavigate();
+    
     return (
         <div className="ticket-actions">
                                     <div className="subsection">

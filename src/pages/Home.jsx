@@ -3,7 +3,7 @@ import Header from '../components/Header/Header.jsx';
 import Sidebar from '../components/Sidebar/Sidebar.jsx';
 import Footer from '../components/Footer/Footer.jsx';
 import Workspace from '../components/Workspace/Workspace.jsx';
-import ITAssets from '../modules/ITAssets/ITAssets.jsx';
+import ITAssets from '../components/ITAssets/ITAssets.jsx';
 import { useState } from 'react';
 
 function Home() {
