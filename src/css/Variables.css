@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+:root {
+    --fonte-inter: 'Inter', sans-serif;
+    
+    --azul-marinho: #131C2F;
+    --azul-profundo: #1E2A47;
+    --azul-profundo-foco: #233153;
+    --azul-destaque-claro: #0A50F1;
+    --azul-destaque-escuro: #336FFC;
+
+    --branco: #FFFFFF;
+    --branco-suave: #F4F4F5;
+    --cinza-claro: #F2F4F6;
+    --cinza-toolbar: #F8F8F8;
+    --cinza-texto: #717783;
+    --cinza-selecao: #E1E2E4;
+    --cinza-escuro: #202020;
+    --cinza-guia-escuro: #454749;
+    --cinza-selecao-escuro: #504F4F;
+}
+
+
+:root,
+[tema="claro"] {
+
+    --filtro-icone: brightness(0) saturate(100%) invert(30%) sepia(8%) saturate(500%) hue-rotate(180deg) brightness(42%) contrast(86%);
+
+    /* Cabeçalho */
+    --cor-header-fundo: var(--azul-marinho);
+    --cor-header-campo: var(--azul-profundo);
+    --cor-header-campo-foco: var(--azul-profundo-foco);
+    --cor-header-placeholder: #4A5368;
+    --cor-header-texto: var(--branco);
+    --cor-header-divisor: #9fa4af63;
+    --cor-header-botao-hover: #1A2746;
+
+    /* Sidebar */
+    --cor-sidebar-fundo: var(--cinza-claro);
+    --cor-sidebar-texto: var(--azul-marinho);
+    --cor-sidebar-ativo: var(--azul-destaque-claro);
+    --cor-sidebar-ativo-fundo: var(--cinza-selecao);
+    --cor-sidebar-subtitulo: var(--cinza-texto);
+
+    /* Workspace e toolbar */
+    --cor-workspace-fundo: var(--branco);
+    --cor-toolbar-fundo: var(--cinza-toolbar);
+    --cor-toolbar-guia-fundo: var(--cinza-claro);
+    --cor-workspace-guia-ativa: var(--azul-destaque-claro);
+
+    /* Fundos gerais */
+    --cor-fundo-principal: var(--branco);
+    --cor-fundo-secundario: var(--cinza-claro);
+    --cor-fundo-ativo: var(--cinza-selecao);
+    --cor-fundo-desabilitado: #F7F6F6;
+
+    /* Textos gerais */
+    --cor-texto-principal: var(--azul-marinho);
+    --cor-texto-secundario: var(--cinza-texto);
+    --cor-texto-claro: var(--branco);
+
+    /* Interações */
+    --cor-fundo-hover: #F2F4F6A4;
+    --cor-fundo-hover-suave: #F2F4F640;
+}
+
+[tema="escuro"] {
+
+    --filtro-icone: brightness(0) invert(1);
+
+    /* Cabeçalho */
+    --cor-header-fundo: var(--azul-marinho);
+    --cor-header-campo: var(--azul-profundo);
+    --cor-header-campo-foco: var(--azul-profundo-foco);
+    --cor-header-placeholder: #4A5368;
+    --cor-header-texto: var(--branco);
+    --cor-header-divisor: #4A536863;
+    --cor-header-botao-hover: #1A2746;
+
+    /* Sidebar */
+    --cor-sidebar-fundo: var(--cinza-escuro);
+    --cor-sidebar-texto: var(--branco-suave);
+    --cor-sidebar-ativo: var(--azul-destaque-escuro);
+    --cor-sidebar-ativo-fundo: var(--cinza-selecao-escuro);
+    --cor-sidebar-subtitulo: #B0B5BF;
+
+    /* Workspace e toolbar */
+    --cor-workspace-fundo: #181818;
+    --cor-toolbar-fundo: var(--cinza-escuro);
+    --cor-toolbar-guia-fundo: var(--cinza-guia-escuro);
+    --cor-workspace-guia-ativa: var(--azul-destaque-claro);
+
+    /* Fundos gerais */
+    --cor-fundo-principal: #181818;
+    --cor-fundo-secundario: var(--cinza-escuro);
+    --cor-fundo-ativo: var(--cinza-guia-escuro);
+    --cor-fundo-desabilitado: #2A2A2A;
+
+    /* Textos gerais */
+    --cor-texto-principal: var(--branco-suave);
+    --cor-texto-secundario: #B0B5BF;
+    --cor-texto-claro: var(--branco);
+
+    /* Interações */
+    --cor-fundo-hover: #FFFFFF1A;
+    --cor-fundo-hover-suave: #FFFFFF0A;
+}

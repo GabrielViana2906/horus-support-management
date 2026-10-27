@@ -1,0 +1,9 @@
+footer {
+    grid-area: footer;
+    background-color: var(--cor-header-fundo);
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+}

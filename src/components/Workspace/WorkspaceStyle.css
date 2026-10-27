@@ -1,0 +1,93 @@
+.workspace {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow-x: auto;
+
+    .dashboard-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        overflow: hidden;
+
+        .welcome-message {
+            font-family: var(--fonte-inter);
+            font-size: 18px;
+            color: var(--cor-texto-principal);
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .ticket-list-container {
+            flex: 1;
+            overflow-y: auto;
+            border: 1px solid var(--cor-fundo-ativo);
+            border-radius: 5px;
+            background-color: var(--cor-fundo-principal);
+
+            .ticket-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-family: var(--fonte-inter);
+                font-size: 12px;
+                text-align: left;
+
+                th,
+                td {
+                    padding: 12px 15px;
+                    border-bottom: 1px solid var(--cor-fundo-ativo);
+                }
+
+                th {
+                    background-color: var(--cor-fundo-secundario);
+                    color: var(--cor-texto-secundario);
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    font-size: 11px;
+                    position: sticky;
+                    top: 0;
+                    z-index: 1;
+                }
+
+                tr:hover {
+                    background-color: var(--cor-fundo-hover-suave);
+                    transition: 0.2s ease-in-out;
+                }
+
+                td {
+                    color: var(--cor-texto-principal);
+                }
+
+                .status-badge {
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    font-size: 10px;
+                    font-weight: bold;
+                    text-transform: uppercase;
+
+                    &.open {
+                        background-color: #e3f2fd;
+                        color: #29478b;
+                    }
+
+                    &.pending {
+                        background-color: #fff3e0;
+                        color: #e65100;
+                    }
+
+                    &.progress {
+                        background-color: #e8f5e9;
+                        color: #2e7d32;
+                    }
+
+                    &.closed {
+                        background-color: var(--cor-fundo-secundario);
+                        color: var(--cor-texto-secundario);
+                    }
+                }
+            }
+        }
+    }
+}
