@@ -20,17 +20,17 @@ function Header() {
                     </button>
 
                     <button className="notifications">
-                        <img src="/assets/bell-icon.png" alt="notification-icon" />
+                        <img src="/assets/bell.png" alt="notification-icon" />
                     </button>
                     
                     <button className="settings">
-                        <img src="/assets/settings-icon.png" alt="settings-icon" />
+                        <img src="/assets/settings.png" alt="settings-icon" />
                     </button>
 
                     <span className="divisor"></span>
 
                     <div className="user-profile">
-                        <img src="/assets/user.png" alt="user-profile" />
+                        <img src="/assets/userpfp.png" alt="user-profile" />
                         <div>
                             <p className="username">John Doe</p>
                             <p className="status">Online</p>

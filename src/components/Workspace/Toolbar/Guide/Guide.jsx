@@ -4,32 +4,32 @@ function Guide({ activeGuideItem, setActiveGuideItem }) {
     return (
         <nav className="guides" aria-label="Guias da toolbar">
             <ul>
-                <li
-                    className={activeGuideItem === 'Tickets' ? 'active' : ''}
-                    onClick={() => setActiveGuideItem('Tickets')}
-                >
-                    <span>Tickets</span>
+                <li>
+                    <button className={activeGuideItem === 'Tickets' ? 'active' : ''}
+                    onClick={() => setActiveGuideItem('Tickets')}>
+                        <span>Tickets</span>
+                    </button> 
                 </li>
 
-                <li
-                    className={activeGuideItem === 'Customers' ? 'active' : ''}
-                    onClick={() => setActiveGuideItem('Customers')}
-                >
-                    <span>Customers</span>
+                <li>
+                    <button className={activeGuideItem === 'Customers' ? 'active' : ''}
+                    onClick={() => setActiveGuideItem('Customers')}>
+                        <span>Customers</span>
+                    </button>
                 </li>
 
-                <li
-                    className={activeGuideItem === 'Communication' ? 'active' : ''}
-                    onClick={() => setActiveGuideItem('Communication')}
-                >
-                    <span>Communication</span>
+                <li>
+                    <button className={activeGuideItem === 'Communication' ? 'active' : ''}
+                    onClick={() => setActiveGuideItem('Communication')}>
+                        <span>Communication</span>
+                    </button>
                 </li>
 
-                <li
-                    className={activeGuideItem === 'Automation' ? 'active' : ''}
-                    onClick={() => setActiveGuideItem('Automation')}
-                >
-                    <span>Automation</span>
+                <li>
+                    <button className={activeGuideItem === 'Automation' ? 'active' : ''}
+                    onClick={() => setActiveGuideItem('Automation')}>
+                        <span>Automation</span>
+                    </button>
                 </li>
             </ul>
         </nav>

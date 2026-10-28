@@ -4,7 +4,7 @@ function VerticalButton({ text, image, action, disabled = false }) {
     return (
         <button
             type="button"
-            className="v-button"
+            className="vertical-button"
             onClick={action}
             disabled={disabled}
         >

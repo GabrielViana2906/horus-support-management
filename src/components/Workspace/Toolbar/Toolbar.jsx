@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import Guide from './Guide/Guide.jsx';
 import './ToolbarStyle.css';
-import Tickets from './Tickets/Tickets.jsx';
+import Tickets from './FeatureSet/Tickets.jsx';
+import Customers from './FeatureSet/Customers.jsx';
 
 function Toolbar() {
     const [activeGuideItem, setActiveGuideItem] = useState('Tickets');
@@ -12,7 +13,7 @@ function Toolbar() {
                 return <Tickets />;
 
             case 'Customers':
-                return <p>Em desenvolvimento Customers</p>;
+                return <Customers />;
 
             case 'Communication':
                 return <p>Em desenvolvimento Communication</p>;

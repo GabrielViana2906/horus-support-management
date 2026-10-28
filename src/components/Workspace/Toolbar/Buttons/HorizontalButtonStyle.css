@@ -1,0 +1,33 @@
+.horizontal-button {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    color: var(--cor-texto-principal);
+    border: solid 1px var(--cor-fundo-principal);
+    padding: 5px 10px;
+    margin-bottom: 3px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: var(--fonte-inter);
+    font-size: 10px;
+    width: 120px;
+
+    img {
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+        filter: var(--filtro-icone);
+        opacity: 0.6;
+    }
+}
+
+.horizontal-button:disabled {
+    background-color: var(--cor-fundo-desabilitado);
+    color: var(--cor-texto-secundario);
+    cursor: default;
+}
+
+.horizontal-button:hover {
+    background-color: var(--cor-fundo-desabilitado);
+    border: solid 1px var(--cor-header-divisor);
+}

@@ -1,4 +1,4 @@
-.v-button {
+.vertical-button {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -22,26 +22,27 @@
     width: 70px;
 }
 
-.v-button img {
+.vertical-button img {
     width: 20px;
     height: 20px;
     margin-bottom: 5px;
-    opacity: 0.5;
+    filter: var(--filtro-icone);
+    opacity: 0.6;
 }
 
-.v-button:hover {
+.vertical-button:hover {
     transition: 0.3s ease-in-out;
     background-color: var(--cor-fundo-hover);
     border-color: var(--cor-fundo-ativo);
 }
 
-.v-button:disabled {
+.vertical-button:disabled {
     background-color: var(--cor-fundo-desabilitado);
     color: var(--cor-texto-secundario);
     cursor: default;
 }
 
-.v-button span {
+.vertical-button span {
     white-space: normal;
     overflow-wrap: break-word;
     text-align: center;

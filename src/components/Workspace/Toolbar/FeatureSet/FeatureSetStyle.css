@@ -1,0 +1,36 @@
+.option-set {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 5px;
+    border-bottom: 1px solid var(--cor-fundo-ativo);
+
+    .vertical-buttons-block {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .horizontal-buttons-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .section-title {
+        display: block;
+        font-size: 10px;
+        font-family: var(--fonte-inter);
+        color: var(--cor-texto-secundario);
+        text-align: center;
+        justify-self: center;
+    }
+
+    .divisor {
+            width: 0.5px;
+            height: 90%;
+            background-color: var(--cor-header-divisor);
+            margin: 0 10px;
+    }
+}
