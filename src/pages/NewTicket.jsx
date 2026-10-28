@@ -4,6 +4,8 @@ import { useNavigate } from "react-router";
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 
+import ToggleButtonGroup from "../components/Forms/ToggleButton/ToggleButtonGroup.jsx";
+
 import "./css/NewTicketStyle.css";
 
 function NewTicket() {
@@ -28,8 +30,60 @@ function NewTicket() {
     const [errorToast, setErrorToast] = useState(false);
 
     const descriptionRef = useRef(null);
-    const fileInputRef = useRef(null);
     const toastTimeoutRef = useRef(null);
+
+    // Opções do grupo de tipos
+    const typeOptions = [
+        {
+            value: "Incidente / Problema",
+            icon: "ⓘ",
+            title: "Incidente / Problema",
+            variation: "choice"
+        },
+        {
+            value: "Requisição de Serviço",
+            icon: "☑",
+            title: "Requisição de Serviço",
+            variation: "choice"
+        },
+        {
+            value: "Dúvida Operacional",
+            icon: "▣",
+            title: "Dúvida Operacional",
+            variation: "choice"
+        },
+        {
+            value: "Licença",
+            icon: "⚿",
+            title: "Licença",
+            variation: "choice"
+        }
+    ];
+
+    // Opções do grupo de impacto
+    const impactOptions = [
+        {
+            value: "Normal",
+            title: "Normal",
+            description:
+                "Afeta apenas um colaborador, sem paralisação de processos críticos. Resposta em no máximo 8h.",
+            variation: "impact"
+        },
+        {
+            value: "Urgente",
+            title: "Urgente",
+            description:
+                "Processo parcial travado; departamento inteiro em espera de fechamento. Resposta em no máximo 4h.",
+            variation: "impact urgent"
+        },
+        {
+            value: "Crítico",
+            title: "Crítico",
+            description:
+                "Interrupção de operação, faturamento ou produção. Resposta em no máximo 1h.",
+            variation: "impact critical"
+        }
+    ];
 
     // Limpa o temporizador quando o componente é desmontado
     useEffect(() => {
@@ -50,25 +104,13 @@ function NewTicket() {
         }, 3200);
     }
 
-    // Seleciona ou desmarca o tipo da ocorrência
-    function toggleType(value) {
-        setSelectedType(current =>
-            current === value ? "" : value
-        );
-    }
-
-    // Seleciona ou desmarca o impacto
-    function toggleImpact(value) {
-        setSelectedImpact(current =>
-            current === value ? "" : value
-        );
-    }
-
     // Formata o texto selecionado na descrição
     function formatText(format) {
         const textarea = descriptionRef.current;
 
-        if (!textarea) return;
+        if (!textarea) {
+            return;
+        }
 
         const start = textarea.selectionStart;
         const end = textarea.selectionEnd;
@@ -107,7 +149,7 @@ function NewTicket() {
 
         const validFiles = [];
 
-        Array.from(files).forEach(file => {
+        Array.from(files).forEach((file) => {
             if (!allowedExtensions.test(file.name)) {
                 showToast(
                     `Formato não permitido: ${file.name}`,
@@ -130,7 +172,7 @@ function NewTicket() {
         });
 
         if (validFiles.length > 0) {
-            setUploadedFiles(current => [
+            setUploadedFiles((current) => [
                 ...current,
                 ...validFiles
             ]);
@@ -170,9 +212,9 @@ function NewTicket() {
 
     // Remove um arquivo da lista
     function removeFile(index) {
-        setUploadedFiles(current =>
-            current.filter((_, currentIndex) =>
-                currentIndex !== index
+        setUploadedFiles((current) =>
+            current.filter(
+                (_, currentIndex) => currentIndex !== index
             )
         );
     }
@@ -292,11 +334,14 @@ function NewTicket() {
 
             <main className="page">
                 <div className="breadcrumbs">
-                    Chamados <span>›</span>{" "}
-                    <strong>Novo Protocolo</strong>
+                    <span>
+                        Workspace › <strong>New Ticket</strong>
+                    </span>
                 </div>
 
-                <h1>Abertura de Chamado Técnico</h1>
+                <h1 className="title">
+                    Abertura de Chamado Técnico
+                </h1>
 
                 <section className="steps">
                     <div className="step active">
@@ -309,8 +354,7 @@ function NewTicket() {
                             </strong>
 
                             <p>
-                                Classificação, solicitante e
-                                diagnóstico básico
+                                Classificação, solicitante e diagnóstico básico
                             </p>
                         </div>
                     </div>
@@ -327,8 +371,7 @@ function NewTicket() {
                             </strong>
 
                             <p>
-                                Ativos CMDB, topologia, logs e
-                                roteamento N2/N3
+                                Ativos CMDB, topologia, logs e roteamento N2/N3
                             </p>
                         </div>
                     </div>
@@ -344,18 +387,16 @@ function NewTicket() {
                     <div className="field">
                         <div className="label-row">
                             <label htmlFor="subject">
-                                Assunto Resumido da Ocorrência{" "}
-                                <span className="required">*</span>
+                                Assunto Resumido da Ocorrência
+                                <span className="required"> *</span>
                             </label>
                         </div>
 
                         <div className="input-wrap">
-                            <span className="field-icon">☷</span>
-
                             <input
                                 id="subject"
                                 value={subject}
-                                onChange={event =>
+                                onChange={(event) =>
                                     setSubject(event.target.value)
                                 }
                                 placeholder="Descreva resumidamente o problema"
@@ -374,13 +415,16 @@ function NewTicket() {
 
                             <div className="input-wrap">
                                 <span className="field-icon blue">
-                                    ♟
+                                    <img
+                                        src="assets/user.png"
+                                        alt=""
+                                    />
                                 </span>
 
                                 <input
                                     id="client"
                                     value={client}
-                                    onChange={event =>
+                                    onChange={(event) =>
                                         setClient(event.target.value)
                                     }
                                     placeholder="Nome ou identificação do cliente"
@@ -401,7 +445,7 @@ function NewTicket() {
                                 <input
                                     id="contact"
                                     value={contact}
-                                    onChange={event =>
+                                    onChange={(event) =>
                                         setContact(event.target.value)
                                     }
                                     placeholder="E-mail ou telefone para contato"
@@ -414,196 +458,32 @@ function NewTicket() {
 
                     <div className="field">
                         <label>
-                            Tipo da Ocorrência{" "}
-                            <span className="required">*</span>
+                            Tipo da Ocorrência
+                            <span className="required"> *</span>
                         </label>
 
-                        <div
+                        <ToggleButtonGroup
                             className="choice-grid"
-                            id="typeChoices"
-                        >
-                            <button
-                                type="button"
-                                className={`choice ${
-                                    selectedType ===
-                                    "Incidente / Problema"
-                                        ? "selected"
-                                        : ""
-                                }`}
-                                data-value="Incidente / Problema"
-                                aria-pressed={
-                                    selectedType ===
-                                    "Incidente / Problema"
-                                }
-                                onClick={() =>
-                                    toggleType(
-                                        "Incidente / Problema"
-                                    )
-                                }
-                            >
-                                <span>ⓘ</span>
-                                Incidente / Problema
-                            </button>
-
-                            <button
-                                type="button"
-                                className={`choice ${
-                                    selectedType ===
-                                    "Requisição de Serviço"
-                                        ? "selected"
-                                        : ""
-                                }`}
-                                data-value="Requisição de Serviço"
-                                aria-pressed={
-                                    selectedType ===
-                                    "Requisição de Serviço"
-                                }
-                                onClick={() =>
-                                    toggleType(
-                                        "Requisição de Serviço"
-                                    )
-                                }
-                            >
-                                <span>☑</span>
-                                Requisição de Serviço
-                            </button>
-
-                            <button
-                                type="button"
-                                className={`choice ${
-                                    selectedType ===
-                                    "Dúvida Operacional"
-                                        ? "selected"
-                                        : ""
-                                }`}
-                                data-value="Dúvida Operacional"
-                                aria-pressed={
-                                    selectedType ===
-                                    "Dúvida Operacional"
-                                }
-                                onClick={() =>
-                                    toggleType(
-                                        "Dúvida Operacional"
-                                    )
-                                }
-                            >
-                                <span>▣</span>
-                                Dúvida Operacional
-                            </button>
-
-                            <button
-                                type="button"
-                                className={`choice ${
-                                    selectedType === "Licença"
-                                        ? "selected"
-                                        : ""
-                                }`}
-                                data-value="Licença"
-                                aria-pressed={
-                                    selectedType === "Licença"
-                                }
-                                onClick={() =>
-                                    toggleType("Licença")
-                                }
-                            >
-                                <span>⚿</span>
-                                Licença
-                            </button>
-                        </div>
+                            options={typeOptions}
+                            value={selectedType}
+                            onChange={setSelectedType}
+                        />
                     </div>
 
                     {/* Impacto no negócio */}
 
                     <div className="field">
                         <label>
-                            Impacto no Negócio (SLA){" "}
-                            <span className="required">*</span>
+                            Impacto no Negócio (SLA)
+                            <span className="required"> *</span>
                         </label>
 
-                        <div
+                        <ToggleButtonGroup
                             className="impact-grid"
-                            id="impactChoices"
-                        >
-                            <button
-                                type="button"
-                                className={`impact ${
-                                    selectedImpact === "Normal"
-                                        ? "selected"
-                                        : ""
-                                }`}
-                                data-value="Normal"
-                                aria-pressed={
-                                    selectedImpact === "Normal"
-                                }
-                                onClick={() =>
-                                    toggleImpact("Normal")
-                                }
-                            >
-                                <strong>Normal</strong>
-
-                                <span>
-                                    Afeta apenas um colaborador,
-                                    sem paralisação de processos
-                                    críticos. Resposta em no máximo
-                                    8h.
-                                </span>
-                            </button>
-
-                            <button
-                                type="button"
-                                className={`impact urgent ${
-                                    selectedImpact === "Urgente"
-                                        ? "selected"
-                                        : ""
-                                }`}
-                                data-value="Urgente"
-                                aria-pressed={
-                                    selectedImpact === "Urgente"
-                                }
-                                onClick={() =>
-                                    toggleImpact("Urgente")
-                                }
-                            >
-                                <strong>
-                                    <i></i>
-                                    Urgente
-                                </strong>
-
-                                <span>
-                                    Processo parcial travado;
-                                    departamento inteiro em espera
-                                    de fechamento. Resposta em no
-                                    máximo 4h.
-                                </span>
-                            </button>
-
-                            <button
-                                type="button"
-                                className={`impact critical ${
-                                    selectedImpact === "Crítico"
-                                        ? "selected"
-                                        : ""
-                                }`}
-                                data-value="Crítico"
-                                aria-pressed={
-                                    selectedImpact === "Crítico"
-                                }
-                                onClick={() =>
-                                    toggleImpact("Crítico")
-                                }
-                            >
-                                <strong>
-                                    <i></i>
-                                    Crítico
-                                </strong>
-
-                                <span>
-                                    Interrupção de operação,
-                                    faturamento ou produção.
-                                    Resposta em no máximo 1h.
-                                </span>
-                            </button>
-                        </div>
+                            options={impactOptions}
+                            value={selectedImpact}
+                            onChange={setSelectedImpact}
+                        />
                     </div>
 
                     {/* Descrição */}
@@ -611,8 +491,8 @@ function NewTicket() {
                     <div className="field">
                         <div className="label-row">
                             <label htmlFor="description">
-                                Descrição Detalhada do Problema{" "}
-                                <span className="required">*</span>
+                                Descrição Detalhada do Problema
+                                <span className="required"> *</span>
                             </label>
                         </div>
 
@@ -622,9 +502,7 @@ function NewTicket() {
                                     type="button"
                                     data-format="bold"
                                     title="Negrito"
-                                    onClick={() =>
-                                        formatText("bold")
-                                    }
+                                    onClick={() => formatText("bold")}
                                 >
                                     <b>B</b>
                                 </button>
@@ -633,9 +511,7 @@ function NewTicket() {
                                     type="button"
                                     data-format="italic"
                                     title="Itálico"
-                                    onClick={() =>
-                                        formatText("italic")
-                                    }
+                                    onClick={() => formatText("italic")}
                                 >
                                     <i>I</i>
                                 </button>
@@ -685,10 +561,8 @@ function NewTicket() {
                                 id="description"
                                 ref={descriptionRef}
                                 value={description}
-                                onChange={event =>
-                                    setDescription(
-                                        event.target.value
-                                    )
+                                onChange={(event) =>
+                                    setDescription(event.target.value)
                                 }
                                 placeholder="Descreva o problema, os erros apresentados e as circunstâncias em que ocorreu."
                                 required
@@ -701,8 +575,7 @@ function NewTicket() {
 
                     <div className="field">
                         <label>
-                            Capturas de Tela, Logs e Evidências
-                            Técnicas
+                            Capturas de Tela, Logs e Evidências Técnicas
                         </label>
 
                         <div className="upload-layout">
@@ -715,16 +588,16 @@ function NewTicket() {
                                 onDragLeave={handleDragLeave}
                                 onDrop={handleDrop}
                             >
-                                <span className="cloud">♧</span>
+                                <span className="cloud">
+                                    ♧
+                                </span>
 
                                 <strong>
-                                    Arraste arquivos ou clique
-                                    para anexar
+                                    Arraste arquivos ou clique para anexar
                                 </strong>
 
                                 <span>
-                                    PNG, JPG, PDF, TXT, LOG (Máx
-                                    25MB)
+                                    PNG, JPG, PDF, TXT, LOG (Máx 25MB)
                                 </span>
 
                                 <span className="upload-button">
@@ -733,7 +606,6 @@ function NewTicket() {
 
                                 <input
                                     id="fileInput"
-                                    ref={fileInputRef}
                                     type="file"
                                     multiple
                                     accept=".png,.jpg,.jpeg,.pdf,.txt,.log"
@@ -741,10 +613,7 @@ function NewTicket() {
                                 />
                             </label>
 
-                            <div
-                                className="file-list"
-                                id="fileList"
-                            >
+                            <div className="file-list" id="fileList">
                                 {uploadedFiles.length === 0 ? (
                                     <div className="file-item">
                                         <div className="file-info">
@@ -752,52 +621,46 @@ function NewTicket() {
                                         </div>
                                     </div>
                                 ) : (
-                                    uploadedFiles.map(
-                                        (file, index) => (
-                                            <div
-                                                className="file-item"
-                                                key={`${file.name}-${index}`}
-                                            >
-                                                <div className="file-symbol">
-                                                    ▧
-                                                </div>
-
-                                                <div className="file-info">
-                                                    <strong>
-                                                        {file.name}
-                                                    </strong>
-
-                                                    <span>
-                                                        {(
-                                                            file.size /
-                                                            1024
-                                                        ).toFixed(0)}{" "}
-                                                        KB ·{" "}
-                                                        {file.name
-                                                            .split(".")
-                                                            .pop()
-                                                            .toUpperCase()}
-                                                    </span>
-
-                                                    <small>
-                                                        Selecionado
-                                                        para anexar
-                                                    </small>
-                                                </div>
-
-                                                <button
-                                                    type="button"
-                                                    className="delete-file"
-                                                    title="Remover arquivo"
-                                                    onClick={() =>
-                                                        removeFile(index)
-                                                    }
-                                                >
-                                                    ▤
-                                                </button>
+                                    uploadedFiles.map((file, index) => (
+                                        <div
+                                            className="file-item"
+                                            key={`${file.name}-${index}`}
+                                        >
+                                            <div className="file-symbol">
+                                                ▧
                                             </div>
-                                        )
-                                    )
+
+                                            <div className="file-info">
+                                                <strong>
+                                                    {file.name}
+                                                </strong>
+
+                                                <span>
+                                                    {(file.size / 1024).toFixed(0)}{" "}
+                                                    KB ·{" "}
+                                                    {file.name
+                                                        .split(".")
+                                                        .pop()
+                                                        .toUpperCase()}
+                                                </span>
+
+                                                <small>
+                                                    Selecionado para anexar
+                                                </small>
+                                            </div>
+
+                                            <button
+                                                type="button"
+                                                className="delete-file"
+                                                title="Remover arquivo"
+                                                onClick={() =>
+                                                    removeFile(index)
+                                                }
+                                            >
+                                                ▤
+                                            </button>
+                                        </div>
+                                    ))
                                 )}
                             </div>
                         </div>

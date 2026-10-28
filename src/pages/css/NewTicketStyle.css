@@ -1,7 +1,3 @@
-* {
-    box-sizing: border-box;
-}
-
 body {
     margin: 0;
     background: var(--cor-fundo-secundario);
@@ -10,18 +6,17 @@ body {
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
+    box-sizing: border-box;
 }
 
-/* =========================================
-   2. LAYOUT PRINCIPAL E TIPOGRAFIA
-   ========================================= */
 .page {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 18px auto 42px;
-    padding: 0 0;
+    padding: 10px 20px;
+    border-radius: 8px;
 }
 
-h1 {
+.title {
     font-size: 23px;
     letter-spacing: -.45px;
     margin: 0 0 16px;
@@ -30,24 +25,22 @@ h1 {
 }
 
 .breadcrumbs {
-    font-size: 12px;
-    color: var(--cor-texto-secundario);
-    margin-bottom: 4px;
-}
+    margin-bottom: 10px;
 
-.breadcrumbs span {
-    font-size: 18px;
-    padding: 0 7px;
-    color: var(--cor-texto-secundario);
-}
+    span {
+        font-size: 12px;
+        color: var(--cor-texto-secundario);
+    }
 
-.breadcrumbs strong {
-    color: var(--cor-texto-principal);
+    strong {
+        color: var(--cor-texto-principal);
+    }
 }
 
 /* =========================================
-   3. PROGRESSO (STEPS)
+   1. ETAPAS DO FORMULÁRIO
    ========================================= */
+
 .steps {
     background: var(--cor-fundo-principal);
     border: 1px solid var(--cor-fundo-ativo);
@@ -57,69 +50,70 @@ h1 {
     padding: 14px 12px;
     margin-bottom: 16px;
     box-shadow: 0 1px 2px #15243A08;
-}
 
-.step {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 0;
-    color: var(--cor-texto-secundario);
-}
+    .step {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 0;
+        color: var(--cor-texto-secundario);
 
-.step.active {
-    color: var(--cor-texto-principal);
-}
+        .step-number {
+            width: 29px;
+            height: 29px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--cor-fundo-secundario);
+            color: var(--cor-texto-secundario);
+            font-size: 17px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
 
-.step-number {
-    width: 29px;
-    height: 29px;
-    display: grid;
-    place-items: center;
-    border-radius: 50%;
-    background: var(--cor-fundo-secundario);
-    color: var(--cor-texto-secundario);
-    font-size: 17px;
-    font-weight: 600;
-    flex-shrink: 0;
-}
+        &.active {
+            color: var(--cor-texto-principal);
 
-.step.active .step-number {
-    background: var(--azul-marinho);
-    color: var(--cor-texto-claro);
-}
+            .step-number {
+                background: var(--azul-marinho);
+                color: var(--cor-texto-claro);
+            }
+        }
 
-.step strong {
-    font-size: 13px;
-    font-weight: 700;
-}
+        strong {
+            font-size: 13px;
+            font-weight: 700;
+        }
 
-.step p {
-    margin: 1px 0 0;
-    color: var(--cor-texto-secundario);
-    font-size: 12px;
-}
+        p {
+            margin: 1px 0 0;
+            color: var(--cor-texto-secundario);
+            font-size: 12px;
+        }
 
-.step em {
-    font-style: normal;
-    background: var(--azul-marinho);
-    color: var(--cor-texto-claro);
-    border-radius: 9px;
-    font-size: 9px;
-    letter-spacing: .2px;
-    padding: 2px 7px;
-    margin-left: 5px;
-    white-space: nowrap;
-}
+        em {
+            font-style: normal;
+            background: var(--azul-marinho);
+            color: var(--cor-texto-claro);
+            border-radius: 9px;
+            font-size: 9px;
+            letter-spacing: .2px;
+            padding: 2px 7px;
+            margin-left: 5px;
+            white-space: nowrap;
 
-.step em.optional {
-    background: var(--cor-fundo-secundario);
-    color: var(--cor-texto-secundario);
+            &.optional {
+                background: var(--cor-fundo-secundario);
+                color: var(--cor-texto-secundario);
+            }
+        }
+    }
 }
 
 /* =========================================
-   4. FORMULÁRIOS E INPUTS
+   2. FORMULÁRIOS E INPUTS
    ========================================= */
+
 .form-card {
     background: var(--cor-fundo-principal);
     border: 1px solid var(--cor-fundo-ativo);
@@ -130,19 +124,14 @@ h1 {
 
 .field {
     margin-bottom: 17px;
-}
 
-.field label,
-.label-row label {
-    display: block;
-    font-weight: 700;
-    font-size: 13px;
-    margin-bottom: 6px;
-    color: var(--cor-texto-principal);
-}
-
-.required {
-    color: #BF3440;
+    label {
+        display: block;
+        font-weight: 700;
+        font-size: 13px;
+        margin-bottom: 6px;
+        color: var(--cor-texto-principal);
+    }
 }
 
 .label-row {
@@ -150,6 +139,18 @@ h1 {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
+
+    label {
+        display: block;
+        font-weight: 700;
+        font-size: 13px;
+        margin-bottom: 6px;
+        color: var(--cor-texto-principal);
+    }
+}
+
+.required {
+    color: #BF3440;
 }
 
 .hint {
@@ -166,24 +167,33 @@ h1 {
     align-items: center;
     padding: 0 12px;
     gap: 10px;
-}
 
-.input-wrap input {
-    border: 0;
-    background: transparent;
-    outline: 0;
-    width: 100%;
-    font: inherit;
-    color: var(--cor-texto-principal);
+    input {
+        border: 0;
+        background: transparent;
+        outline: 0;
+        width: 100%;
+        font: inherit;
+        color: var(--cor-texto-principal);
+    }
 }
 
 .field-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 19px;
     color: var(--cor-texto-secundario);
-}
 
-.field-icon.blue {
-    color: var(--azul-destaque-claro);
+    &.blue {
+        color: var(--azul-destaque-claro);
+    }
+
+    img {
+        width: 18px;
+        filter: var(--filtro-icone);
+        opacity: 0.8;
+    }
 }
 
 .two-columns {
@@ -192,7 +202,10 @@ h1 {
     gap: 12px;
 }
 
-/* --- Grids de Escolha e Impacto --- */
+/* =========================================
+   3. GRIDS DE ESCOLHA E IMPACTO
+   ========================================= */
+
 .choice-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -213,21 +226,21 @@ h1 {
     flex-direction: column;
     gap: 2px;
     cursor: pointer;
-}
 
-.choice span {
-    font-size: 18px;
-    color: var(--cor-texto-secundario);
-}
+    span {
+        font-size: 18px;
+        color: var(--cor-texto-secundario);
+    }
 
-.choice.selected {
-    background: var(--azul-marinho);
-    border-color: var(--azul-marinho);
-    color: var(--cor-texto-claro);
-}
+    &.selected {
+        background: var(--azul-marinho);
+        border-color: var(--azul-marinho);
+        color: var(--cor-texto-claro);
 
-.choice.selected span {
-    color: var(--cor-texto-claro);
+        span {
+            color: var(--cor-texto-claro);
+        }
+    }
 }
 
 .impact-grid {
@@ -245,51 +258,54 @@ h1 {
     padding: 9px 10px;
     cursor: pointer;
     color: var(--cor-texto-principal);
-}
 
-.impact strong {
-    display: block;
-    font-size: 16px;
-    margin-bottom: 4px;
-}
+    strong {
+        display: block;
+        font-size: 16px;
+        margin-bottom: 4px;
+    }
 
-.impact span {
-    display: block;
-    font-size: 12px;
-    line-height: 1.35;
-    color: var(--cor-texto-secundario);
-}
+    span {
+        display: block;
+        font-size: 12px;
+        line-height: 1.35;
+        color: var(--cor-texto-secundario);
+    }
 
-.impact.selected {
-    border: 1px solid var(--azul-destaque-claro);
-    background: var(--cor-fundo-ativo);
-    box-shadow: 0 0 0 1px var(--cor-fundo-hover);
-}
+    &.selected {
+        border: 1px solid var(--azul-destaque-claro);
+        background: var(--cor-fundo-ativo);
+        box-shadow: 0 0 0 1px var(--cor-fundo-hover);
+    }
 
-.impact.urgent strong {
-    color: #294780;
-}
+    &.urgent strong {
+        color: #294780;
+    }
 
-.impact.critical strong {
-    color: #A72D3A;
-}
+    &.critical {
+        strong {
+            color: #A72D3A;
+        }
 
-.impact i {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    background: var(--azul-destaque-claro);
-    border-radius: 50%;
-    margin-right: 5px;
-}
+        i {
+            background: #BD2B3B;
+        }
+    }
 
-.impact.critical i {
-    background: #BD2B3B;
+    i {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        background: var(--azul-destaque-claro);
+        border-radius: 50%;
+        margin-right: 5px;
+    }
 }
 
 /* =========================================
-   5. CAIXA DE EDIÇÃO DE TEXTO E TEXTAREA
+   4. CAIXA DE EDIÇÃO E TEXTAREA
    ========================================= */
+
 .editor {
     border: 1px solid var(--cor-fundo-ativo);
     border-radius: 4px;
@@ -305,21 +321,21 @@ h1 {
     gap: 8px;
     padding: 0 9px;
     border-bottom: 1px solid var(--cor-fundo-ativo);
-}
 
-.caixa-edicao-texto button {
-    border: 0;
-    background: transparent;
-    color: var(--cor-texto-principal);
-    cursor: pointer;
-    font-size: 14px;
-    padding: 3px;
-}
+    button {
+        border: 0;
+        background: transparent;
+        color: var(--cor-texto-principal);
+        cursor: pointer;
+        font-size: 14px;
+        padding: 3px;
+    }
 
-.caixa-edicao-texto span {
-    margin-left: auto;
-    color: var(--cor-texto-secundario);
-    font-size: 12px;
+    span {
+        margin-left: auto;
+        color: var(--cor-texto-secundario);
+        font-size: 12px;
+    }
 }
 
 textarea {
@@ -335,8 +351,9 @@ textarea {
 }
 
 /* =========================================
-   6. ÁREA DE UPLOAD DE ARQUIVOS
+   5. ÁREA DE UPLOAD DE ARQUIVOS
    ========================================= */
+
 .upload-layout {
     display: grid;
     grid-template-columns: 2.1fr 1.05fr;
@@ -354,24 +371,24 @@ textarea {
     gap: 4px;
     cursor: pointer;
     color: var(--cor-texto-principal);
-}
 
-.dropzone .cloud {
-    font-size: 25px;
-    color: var(--azul-destaque-claro);
-}
+    .cloud {
+        font-size: 25px;
+        color: var(--azul-destaque-claro);
+    }
 
-.dropzone strong {
-    font-size: 15px;
-}
+    strong {
+        font-size: 15px;
+    }
 
-.dropzone > span:not(.cloud):not(.upload-button) {
-    font-size: 12px;
-    color: var(--cor-texto-secundario);
-}
+    > span:not(.cloud):not(.upload-button) {
+        font-size: 12px;
+        color: var(--cor-texto-secundario);
+    }
 
-.dropzone input {
-    display: none;
+    input {
+        display: none;
+    }
 }
 
 .upload-button {
@@ -411,27 +428,29 @@ textarea {
     font-size: 18px;
 }
 
-.file-info strong,
-.file-info span,
-.file-info small {
-    display: block;
-    overflow-wrap: anywhere;
-}
+.file-info {
+    strong,
+    span,
+    small {
+        display: block;
+        overflow-wrap: anywhere;
+    }
 
-.file-info strong {
-    font-size: 11px;
-    color: var(--cor-texto-principal);
-}
+    strong {
+        font-size: 11px;
+        color: var(--cor-texto-principal);
+    }
 
-.file-info span {
-    font-size: 11px;
-    color: var(--cor-texto-secundario);
-}
+    span {
+        font-size: 11px;
+        color: var(--cor-texto-secundario);
+    }
 
-.file-info small {
-    font-size: 10px;
-    color: var(--azul-destaque-claro);
-    margin-top: 2px;
+    small {
+        font-size: 10px;
+        color: var(--azul-destaque-claro);
+        margin-top: 2px;
+    }
 }
 
 .delete-file {
@@ -456,13 +475,13 @@ textarea {
 }
 
 /* =========================================
-   7. BARRA INFERIOR E BOTÕES
+   6. BARRA INFERIOR E BOTÕES
    ========================================= */
+
 .bottom-bar {
     margin-top: 16px;
     padding: 11px 12px;
     background: var(--cor-fundo-principal);
-    border: 1px solid var(--cor-fundo-ativo);
     border-radius: 4px;
     display: flex;
     justify-content: space-between;
@@ -499,11 +518,11 @@ textarea {
     font-weight: 700;
     min-width: 255px;
     box-shadow: 0 2px 4px var(--cor-fundo-hover);
-}
 
-.primary-button span {
-    font-size: 17px;
-    margin-left: 5px;
+    span {
+        font-size: 17px;
+        margin-left: 5px;
+    }
 }
 
 .footer-actions {
@@ -512,8 +531,9 @@ textarea {
 }
 
 /* =========================================
-   8. NOTIFICAÇÕES (TOAST)
+   7. NOTIFICAÇÕES (TOAST)
    ========================================= */
+
 .toast {
     position: fixed;
     right: 22px;
@@ -525,19 +545,20 @@ textarea {
     box-shadow: 0 4px 18px #0002;
     display: none;
     z-index: 10;
-}
 
-.toast.show {
-    display: block;
-}
+    &.show {
+        display: block;
+    }
 
-.toast.error {
-    background: #A82E3B;
+    &.error {
+        background: #A82E3B;
+    }
 }
 
 /* =========================================
-   9. MEDIA QUERIES (RESPONSIVIDADE)
+   8. MEDIA QUERIES (RESPONSIVIDADE)
    ========================================= */
+
 @media (max-width: 1150px) {
     .page {
         margin: 18px 24px 36px;
@@ -564,20 +585,26 @@ textarea {
 
     .search-box {
         min-width: 0;
+
+        kbd {
+            display: none;
+        }
     }
 
-    .search-box kbd,
-    .user div:first-child,
+    .user {
+        div:first-child {
+            display: none;
+        }
+
+        padding-left: 8px;
+    }
+
     .icon-button {
         display: none;
     }
 
     .top-actions {
         gap: 8px;
-    }
-
-    .user {
-        padding-left: 8px;
     }
 
     .page {
