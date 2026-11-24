@@ -1,8 +1,14 @@
 import './css/LoginStyle.css'
 import { useNavigate } from 'react-router';
+import { useState } from 'react';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 
 function Login() {
     const navigate = useNavigate();
+    const [lembrar, setLembrar] = useLocalStorage('horus:lembrar', false);
+    const [emailSalvo, setEmailSalvo] = useLocalStorage('horus:email', '');
+    const [email, setEmail] = useState(lembrar ? emailSalvo : '');
+    const [password, setPassword] = useState('');
 
     return (
         <div className="login-page">
@@ -52,8 +58,15 @@ function Login() {
 
                     <form className="login-form" onSubmit={(event) => {
                         event.preventDefault();
-                        navigate('/home');
-                    }}>
+
+                        if (lembrar) {
+                            setEmailSalvo(email);
+                        } else {
+                            setEmailSalvo('');
+                        }
+
+                                navigate('/home');
+                        }}>
 
                         <div className="form-group">
                             <label htmlFor="email">E-mail Corporativo</label>
@@ -61,9 +74,11 @@ function Login() {
                             <div className="input-container">
                                 <i className="fa-solid fa-at"></i>
                                 <input
-                                    type="email"
+                                      type="email"
                                     id="email"
                                     placeholder="seu.email@empresa.com"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     required
                                 />
                             </div>
@@ -84,13 +99,18 @@ function Login() {
                                     type="password"
                                     id="password"
                                     placeholder="Digite sua senha"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
                                     required
                                 />
                             </div>
                         </div>
 
                         <label className="remember-option">
-                            <input type="checkbox" />
+                            <input type="checkbox"npm run dev
+                            checked={lembrar}
+                            onChange={(e) => setLembrar(e.target.checked)}
+                            />
                             <span>Lembrar deste computador</span>
                         </label>
 
