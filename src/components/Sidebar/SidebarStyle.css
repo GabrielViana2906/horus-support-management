@@ -5,6 +5,15 @@
     display: flex;
     flex-direction: column;
 
+    .sidebar-toggle {
+        display: none;
+    }
+
+    .sidebar-content {
+        display: flex;
+        flex-direction: column;
+    }
+
     h3 {
         font-family: var(--fonte-inter);
         font-weight: normal;
@@ -49,6 +58,35 @@
                 background-color: var(--cor-sidebar-ativo-fundo);
                 border-left: 5px solid var(--cor-sidebar-ativo);
             }
+        }
+    }
+}
+
+@media (max-width: 700px) {
+    .sidebar {
+        height: auto;
+
+        .sidebar-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background-color: var(--cor-sidebar-fundo);
+            color: var(--cor-sidebar-texto);
+            font-family: var(--fonte-inter);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .sidebar-content {
+            display: none;
+        }
+
+        .sidebar-content.open {
+            display: flex;
         }
     }
 }
