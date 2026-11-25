@@ -4,33 +4,193 @@
     align-items: center;
     padding: 5px;
     border-bottom: 1px solid var(--cor-fundo-ativo);
+}
 
-    .vertical-buttons-block {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 10px;
+.vertical-buttons-block {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.horizontal-buttons-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section-title {
+    display: block;
+    font-size: 10px;
+    font-family: var(--fonte-inter);
+    color: var(--cor-texto-secundario);
+    text-align: center;
+    justify-self: center;
+}
+
+.divisor {
+    width: 0.5px;
+    height: 90%;
+    background-color: var(--cor-header-divisor);
+    margin: 0 10px;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+}
+
+.modal-container {
+    background: var(--cor-fundo-principal);
+    border: 1px solid var(--cor-fundo-ativo);
+    border-radius: 8px;
+    width: 90%;
+    max-width: 450px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 24px #0000001A;
+    animation: modalSlide 0.3s ease;
+}
+
+@keyframes modalSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
     }
-
-    .horizontal-buttons-block {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
+}
 
-    .section-title {
-        display: block;
-        font-size: 10px;
-        font-family: var(--fonte-inter);
-        color: var(--cor-texto-secundario);
-        text-align: center;
-        justify-self: center;
-    }
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--cor-fundo-ativo);
+}
 
-    .divisor {
-            width: 0.5px;
-            height: 90%;
-            background-color: var(--cor-header-divisor);
-            margin: 0 10px;
+.modal-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--cor-texto-secundario);
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: var(--cor-texto-principal);
+}
+
+.modal-form {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.modal-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.modal-field label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--cor-texto-principal);
+}
+
+.modal-field input {
+    padding: 8px 12px;
+    border: 1px solid var(--cor-fundo-ativo);
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: var(--fonte-inter);
+    background: var(--cor-fundo-secundario);
+    color: var(--cor-texto-principal);
+}
+
+.modal-field input:focus {
+    outline: none;
+    border-color: var(--azul-destaque-claro);
+}
+
+.modal-erro {
+    font-size: 11px;
+    color: #BF3440;
+}
+
+.modal-checkbox {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.modal-checkbox input {
+    width: auto;
+    margin: 0;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 0 20px 20px 20px;
+    margin-top: 8px;
+    border-top: 1px solid var(--cor-fundo-ativo);
+}
+
+.modal-btn-cancel {
+    background: transparent;
+    color: var(--cor-texto-secundario);
+    border: 1px solid var(--cor-fundo-ativo);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.modal-btn-cancel:hover {
+    background-color: var(--cor-fundo-hover);
+}
+
+.modal-btn-save {
+    background: var(--azul-destaque-claro);
+    color: var(--cor-texto-claro);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.modal-btn-save:hover {
+    opacity: 0.9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .modal-container {
+        animation: none;
     }
 }

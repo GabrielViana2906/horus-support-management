@@ -1,15 +1,16 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { getSetting, setSetting } from '../database/db';
 
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
     const [tema, setTema] = useState(() => {
-        return localStorage.getItem('tema') || 'claro';
+        return getSetting('tema') || 'claro';
     });
 
     useEffect(() => {
         document.documentElement.setAttribute('tema', tema);
-        localStorage.setItem('tema', tema);
+        setSetting('tema', tema);
     }, [tema]);
 
     function alternarTema() {

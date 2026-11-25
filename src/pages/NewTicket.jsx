@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
+import { addTicket } from "../database/db";
 
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
@@ -224,7 +225,7 @@ function NewTicket() {
         navigate("/home");
     }
 
-    // Validação e envio demonstrativo do formulário
+    // Validação e envio do formulário, salvando o ticket no localStorage
     function handleSubmit(event) {
         event.preventDefault();
 
@@ -252,9 +253,29 @@ function NewTicket() {
             return;
         }
 
-        showToast(
-            `Chamado demonstrativo enviado! Tipo: ${selectedType} · Impacto: ${selectedImpact}`
-        );
+        // Monta o objeto do ticket
+        const ticket = {
+            id: Date.now(),
+            subject: subject,
+            clientId: client,
+            contact: contact,
+            type: selectedType,
+            impact: selectedImpact,
+            description: description,
+            status: 'Aberto',
+            priority: selectedImpact === 'Crítico' ? 'Alta' : selectedImpact === 'Urgente' ? 'Média' : 'Baixa',
+            createdAt: new Date().toISOString()
+        };
+
+        // Adiciona o ticket na lista tickets do horus_db_v1 via camada de database
+        addTicket(ticket);
+
+        showToast(`Ticket criado com sucesso! ID: #${ticket.id}`);
+
+        // Retorna para o home/workspace após salvar
+        setTimeout(() => {
+            navigate('/home');
+        }, 1500);
     }
 
     // Avanço demonstrativo para a próxima etapa

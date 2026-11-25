@@ -1,9 +1,14 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import './FeatureSetStyle.css';
-import '../Buttons/VerticalButton'
 import VerticalButton from '../Buttons/VerticalButton';
 import SplitButton from '../Buttons/SplitButton';
+import CreateAgentModal from './CreateAgentModal';
 
-function Customers() {
+function Users() {
+
+    const navigate = useNavigate();
+    const [showCreateAgent, setShowCreateAgent] = useState(false);
 
     const newCustomerOptions = [
         {
@@ -29,16 +34,19 @@ function Customers() {
                     <VerticalButton text="Manage Customers" image="assets/user-management.png"/>
                     <VerticalButton text="Bulk Import" image="assets/bulk-user-import.png"/>
                     <VerticalButton text="Manage Groups" image="assets/group-management.png"/>
+                    <VerticalButton text="Criar agente" image="/assets/create-ticket.png" action={() => setShowCreateAgent(true)}/>
                 </div>
                 <p className='section-title'>User Operations</p>
             </div>
-                
+
             <div className="divisor"></div>
         </div>
-        
+
+        {showCreateAgent && <CreateAgentModal onClose={() => setShowCreateAgent(false)} />}
+
         </>
     )
 
 }
 
-export default Customers;
+export default Users;

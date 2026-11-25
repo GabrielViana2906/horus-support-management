@@ -7,28 +7,28 @@ function Guide({ activeGuideItem, setActiveGuideItem }) {
                 <li>
                     <button className={activeGuideItem === 'Tickets' ? 'active' : ''}
                     onClick={() => setActiveGuideItem('Tickets')}>
-                        <span>Tickets</span>
+                        <span>Chamados</span>
                     </button> 
                 </li>
 
                 <li>
-                    <button className={activeGuideItem === 'Customers' ? 'active' : ''}
-                    onClick={() => setActiveGuideItem('Customers')}>
-                        <span>Customers</span>
+                    <button className={activeGuideItem === 'Users' ? 'active' : ''}
+                    onClick={() => setActiveGuideItem('Users')}>
+                        <span>Usuários</span>
                     </button>
                 </li>
 
                 <li>
                     <button className={activeGuideItem === 'Communication' ? 'active' : ''}
                     onClick={() => setActiveGuideItem('Communication')}>
-                        <span>Communication</span>
+                        <span>Comunicação</span>
                     </button>
                 </li>
 
                 <li>
                     <button className={activeGuideItem === 'Automation' ? 'active' : ''}
                     onClick={() => setActiveGuideItem('Automation')}>
-                        <span>Automation</span>
+                        <span>Automação</span>
                     </button>
                 </li>
             </ul>

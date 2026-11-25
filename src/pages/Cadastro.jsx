@@ -1,6 +1,7 @@
 import './css/LoginStyle.css'
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
+import { addCustomer } from '../database/db';
 
 function Cadastro() {
     const navigate = useNavigate();
@@ -55,7 +56,8 @@ function Cadastro() {
             criadoEm: new Date().toISOString()
         };
 
-        localStorage.setItem('customer', JSON.stringify(customer));
+        // Adiciona o cliente na lista customers do horus_db_v1 via camada de database
+        addCustomer(customer);
 
         navigate('/'); // ajuste para a rota do seu login
     }

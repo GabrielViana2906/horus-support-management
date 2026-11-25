@@ -1,16 +1,21 @@
 import './css/LoginStyle.css'
 import { useNavigate } from 'react-router';
-import { useState } from 'react';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useState, useEffect } from 'react';
+import { getSetting, setSetting, getAgents } from '../database/db';
 
 function Login() {
     const navigate = useNavigate();
-    const [lembrar, setLembrar] = useLocalStorage('horus:lembrar', false);
-    const [emailSalvo, setEmailSalvo] = useLocalStorage('horus:email', '');
+    const [lembrar, setLembrar] = useState(getSetting('lembrar') || false);
+    const [emailSalvo, setEmailSalvo] = useState(getSetting('email') || '');
     const [perfil, setPerfil] = useState('agent'); // 'agent' ou 'customer'
     const [email, setEmail] = useState(lembrar ? emailSalvo : '');
     const [password, setPassword] = useState('');
     const [erros, setErros] = useState({ email: '', password: '', geral: '' });
+
+    useEffect(() => {
+        setSetting('lembrar', lembrar);
+        setSetting('email', emailSalvo);
+    }, [lembrar, emailSalvo]);
 
     function validar() {
         const novosErros = { email: '', password: '', geral: '' };
@@ -46,9 +51,9 @@ function Login() {
             return;
         }
 
-        const rawAgent = localStorage.getItem('agent');
+        const agents = getAgents();
 
-        if (!rawAgent) {
+        if (!agents || agents.length === 0) {
             setErros((prev) => ({
                 ...prev,
                 geral: 'Nenhum usuário do tipo agente encontrado.'
@@ -56,32 +61,21 @@ function Login() {
             return;
         }
 
-        let agent;
-        try {
-            agent = JSON.parse(rawAgent);
-        } catch {
-            setErros((prev) => ({
-                ...prev,
-                geral: 'Dados de agente inválidos no armazenamento.'
-            }));
-            return;
-        }
-
-        if (!agent || agent.role !== 'agent') {
-            setErros((prev) => ({
-                ...prev,
-                geral: 'Este usuário não é do tipo agente.'
-            }));
-            return;
-        }
-
         const emailDigitado = email.trim().toLowerCase();
-        const emailSalvoAgent = (agent.email || '').trim().toLowerCase();
+        const agent = agents.find(a => (a.email || '').trim().toLowerCase() === emailDigitado);
 
-        if (emailSalvoAgent !== emailDigitado) {
+        if (!agent) {
             setErros((prev) => ({
                 ...prev,
                 email: 'E-mail de agente não encontrado.'
+            }));
+            return;
+        }
+
+        if (agent.role !== 'agent') {
+            setErros((prev) => ({
+                ...prev,
+                geral: 'Este usuário não é do tipo agente.'
             }));
             return;
         }
@@ -92,12 +86,6 @@ function Login() {
                 password: 'Senha incorreta.'
             }));
             return;
-        }
-
-        if (lembrar) {
-            setEmailSalvo(email.trim());
-        } else {
-            setEmailSalvo('');
         }
 
         navigate('/home');
