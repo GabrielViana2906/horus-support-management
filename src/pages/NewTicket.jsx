@@ -1,13 +1,25 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router";
-import { addTicket } from "../database/db";
+import { addTicket, generateTicketId, getCustomers } from "../database/db";
 
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
 
 import ToggleButtonGroup from "../components/Forms/ToggleButton/ToggleButtonGroup.jsx";
+import CreateCustomerModal from "../components/Workspace/Toolbar/FeatureSet/CreateCustomerModal.jsx";
 
 import "./css/NewTicketStyle.css";
+
+function formatCustomerLabel(customer) {
+    if (!customer) {
+        return "";
+    }
+
+    return customer.empresa
+        ? `${customer.nome} | ${customer.empresa}`
+        : customer.nome;
+}
 
 function NewTicket() {
     const navigate = useNavigate();
@@ -15,8 +27,18 @@ function NewTicket() {
     // Campos do formulário
     const [subject, setSubject] = useState("");
     const [client, setClient] = useState("");
+    const [clientSearch, setClientSearch] = useState("");
     const [contact, setContact] = useState("");
     const [description, setDescription] = useState("");
+    const [customers, setCustomers] = useState(() => getCustomers());
+    const [isClientDropdownOpen, setIsClientDropdownOpen] = useState(false);
+    const [dropdownPosition, setDropdownPosition] = useState({
+        top: 0,
+        left: 0,
+        width: 0
+    });
+    const [showCreateCustomerModal, setShowCreateCustomerModal] =
+        useState(false);
 
     // Opções selecionadas
     const [selectedType, setSelectedType] = useState("");
@@ -32,6 +54,9 @@ function NewTicket() {
 
     const descriptionRef = useRef(null);
     const toastTimeoutRef = useRef(null);
+    const clientBoxRef = useRef(null);
+    const clientMenuRef = useRef(null);
+    const clientInputRef = useRef(null);
 
     // Opções do grupo de tipos
     const typeOptions = [
@@ -225,6 +250,120 @@ function NewTicket() {
         navigate("/home");
     }
 
+    const selectedCustomer =
+        customers.find((customer) => String(customer.id) === client) || null;
+
+    const normalizedSearch = clientSearch.trim().toLowerCase();
+    const isShowingSelectedLabel =
+        selectedCustomer &&
+        clientSearch === formatCustomerLabel(selectedCustomer);
+
+    const filteredCustomers =
+        !normalizedSearch || isShowingSelectedLabel
+            ? customers
+            : customers.filter((customer) =>
+                  formatCustomerLabel(customer)
+                      .toLowerCase()
+                      .includes(normalizedSearch)
+              );
+
+    function updateDropdownPosition() {
+        if (!clientBoxRef.current) {
+            return;
+        }
+
+        const rect = clientBoxRef.current.getBoundingClientRect();
+
+        setDropdownPosition({
+            top: rect.bottom + 4,
+            left: rect.left,
+            width: rect.width
+        });
+    }
+
+    function openClientDropdown() {
+        updateDropdownPosition();
+        setIsClientDropdownOpen(true);
+    }
+
+    function toggleClientDropdown() {
+        if (isClientDropdownOpen) {
+            setIsClientDropdownOpen(false);
+            return;
+        }
+
+        openClientDropdown();
+        clientInputRef.current?.focus();
+    }
+
+    function handleClientInputChange(event) {
+        const value = event.target.value;
+
+        setClientSearch(value);
+        setClient("");
+        openClientDropdown();
+    }
+
+    function handleSelectCustomer(customer) {
+        setClient(String(customer.id));
+        setClientSearch(formatCustomerLabel(customer));
+        setContact(customer.email || "");
+        setIsClientDropdownOpen(false);
+    }
+
+    function handleOpenCreateCustomer() {
+        setIsClientDropdownOpen(false);
+        setShowCreateCustomerModal(true);
+    }
+
+    function handleCustomerCreated(newCustomer) {
+        setCustomers(getCustomers());
+        setClient(String(newCustomer.id));
+        setClientSearch(formatCustomerLabel(newCustomer));
+        setContact(newCustomer.email || "");
+        showToast("Cliente cadastrado com sucesso!");
+    }
+
+    useEffect(() => {
+        if (!isClientDropdownOpen) {
+            return;
+        }
+
+        function handleClickOutside(event) {
+            const clickedInsideBox = clientBoxRef.current?.contains(
+                event.target
+            );
+            const clickedInsideMenu = clientMenuRef.current?.contains(
+                event.target
+            );
+
+            if (!clickedInsideBox && !clickedInsideMenu) {
+                setIsClientDropdownOpen(false);
+
+                const currentSelected = customers.find(
+                    (customer) => String(customer.id) === client
+                );
+                setClientSearch(
+                    currentSelected ? formatCustomerLabel(currentSelected) : ""
+                );
+            }
+        }
+
+        function handleReposition() {
+            updateDropdownPosition();
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        window.addEventListener("resize", handleReposition);
+        window.addEventListener("scroll", handleReposition, true);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            window.removeEventListener("resize", handleReposition);
+            window.removeEventListener("scroll", handleReposition, true);
+        };
+    }, [isClientDropdownOpen, client, customers]);
+
     // Validação e envio do formulário, salvando o ticket no localStorage
     function handleSubmit(event) {
         event.preventDefault();
@@ -255,7 +394,7 @@ function NewTicket() {
 
         // Monta o objeto do ticket
         const ticket = {
-            id: Date.now(),
+            id: generateTicketId(),
             subject: subject,
             clientId: client,
             contact: contact,
@@ -434,7 +573,12 @@ function NewTicket() {
                                 Cliente
                             </label>
 
-                            <div className="input-wrap">
+                            <div
+                                ref={clientBoxRef}
+                                className={`input-wrap client-combobox ${
+                                    isClientDropdownOpen ? "open" : ""
+                                }`}
+                            >
                                 <span className="field-icon blue">
                                     <img
                                         src="assets/user.png"
@@ -444,13 +588,130 @@ function NewTicket() {
 
                                 <input
                                     id="client"
-                                    value={client}
-                                    onChange={(event) =>
-                                        setClient(event.target.value)
-                                    }
-                                    placeholder="Nome ou identificação do cliente"
+                                    ref={clientInputRef}
+                                    type="text"
+                                    role="combobox"
+                                    aria-autocomplete="list"
+                                    aria-expanded={isClientDropdownOpen}
+                                    aria-controls="client-dropdown-listbox"
+                                    value={clientSearch}
+                                    onFocus={(event) => {
+                                        openClientDropdown();
+                                        if (selectedCustomer) {
+                                            event.target.select();
+                                        }
+                                    }}
+                                    onChange={handleClientInputChange}
+                                    onKeyDown={(event) => {
+                                        if (event.key === "Escape") {
+                                            setIsClientDropdownOpen(false);
+                                        }
+                                    }}
+                                    placeholder="Busque ou selecione um cliente"
+                                    autoComplete="off"
                                 />
+
+                                <button
+                                    type="button"
+                                    className={`dropdown-toggle-btn ${
+                                        isClientDropdownOpen ? "open" : ""
+                                    }`}
+                                    onClick={toggleClientDropdown}
+                                    aria-label="Alternar lista de clientes"
+                                    aria-expanded={isClientDropdownOpen}
+                                >
+                                    ▾
+                                </button>
                             </div>
+
+                            {isClientDropdownOpen &&
+                                createPortal(
+                                    <div
+                                        ref={clientMenuRef}
+                                        id="client-dropdown-listbox"
+                                        role="listbox"
+                                        className="client-dropdown-menu"
+                                        style={{
+                                            position: "fixed",
+                                            top: dropdownPosition.top,
+                                            left: dropdownPosition.left,
+                                            width: dropdownPosition.width,
+                                            zIndex: 950
+                                        }}
+                                    >
+                                        <button
+                                            type="button"
+                                            role="option"
+                                            aria-selected={false}
+                                            className="client-dropdown-option new-client"
+                                            onMouseDown={(event) =>
+                                                event.preventDefault()
+                                            }
+                                            onClick={handleOpenCreateCustomer}
+                                        >
+                                            <span>+ Novo Cliente</span>
+                                        </button>
+
+                                        <div className="client-dropdown-list">
+                                            {filteredCustomers.length === 0 ? (
+                                                <div className="client-dropdown-empty">
+                                                    Nenhum cliente encontrado.
+                                                </div>
+                                            ) : (
+                                                filteredCustomers.map(
+                                                    (customer) => {
+                                                        const isSelected =
+                                                            String(
+                                                                customer.id
+                                                            ) === client;
+
+                                                        return (
+                                                            <button
+                                                                key={
+                                                                    customer.id
+                                                                }
+                                                                type="button"
+                                                                role="option"
+                                                                aria-selected={
+                                                                    isSelected
+                                                                }
+                                                                className={`client-dropdown-option ${
+                                                                    isSelected
+                                                                        ? "selected"
+                                                                        : ""
+                                                                }`}
+                                                                onMouseDown={(
+                                                                    event
+                                                                ) =>
+                                                                    event.preventDefault()
+                                                                }
+                                                                onClick={() =>
+                                                                    handleSelectCustomer(
+                                                                        customer
+                                                                    )
+                                                                }
+                                                            >
+                                                                <span className="client-option-name">
+                                                                    {
+                                                                        customer.nome
+                                                                    }
+                                                                </span>
+                                                                <span className="client-option-sep">
+                                                                    |
+                                                                </span>
+                                                                <span className="client-option-company">
+                                                                    {customer.empresa ||
+                                                                        "Sem empresa"}
+                                                                </span>
+                                                            </button>
+                                                        );
+                                                    }
+                                                )
+                                            )}
+                                        </div>
+                                    </div>,
+                                    document.body
+                                )}
                         </div>
 
                         <div className="field">
@@ -636,10 +897,8 @@ function NewTicket() {
 
                             <div className="file-list" id="fileList">
                                 {uploadedFiles.length === 0 ? (
-                                    <div className="file-item">
-                                        <div className="file-info">
-                                            Nenhum arquivo anexado.
-                                        </div>
+                                    <div className="file-empty">
+                                        Nenhum arquivo anexado.
                                     </div>
                                 ) : (
                                     uploadedFiles.map((file, index) => (
@@ -734,6 +993,13 @@ function NewTicket() {
                     {toast}
                 </div>
             </main>
+
+            {showCreateCustomerModal && (
+                <CreateCustomerModal
+                    onClose={() => setShowCreateCustomerModal(false)}
+                    onCreated={handleCustomerCreated}
+                />
+            )}
 
             <Footer />
         </>

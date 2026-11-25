@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { addAgent } from '../../../../database/db';
+import { addAgent, generateAgentId } from '../../../../database/db';
 import './FeatureSetStyle.css';
 
 export default function CreateAgentModal({ onClose }) {
@@ -46,7 +46,7 @@ export default function CreateAgentModal({ onClose }) {
         if (!validar()) return;
 
         const agent = {
-            id: Date.now(),
+            id: generateAgentId(),
             nome: nome.trim(),
             email: email.trim(),
             password,

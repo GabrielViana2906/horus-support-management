@@ -20,6 +20,72 @@
             margin-bottom: 20px;
         }
 
+        .ticket-table-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+
+        .bulk-dropdown-wrapper {
+            display: flex;
+            align-items: center;
+        }
+
+        .bulk-dropdown-trigger,
+        .delete-tickets-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            height: 34px;
+            padding: 0 12px;
+            border-radius: 4px;
+            border: 1px solid var(--cor-fundo-ativo);
+            background-color: var(--cor-fundo-principal);
+            color: var(--cor-texto-principal);
+            font-family: var(--fonte-inter);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+
+            &:hover:not(:disabled) {
+                background-color: var(--cor-fundo-hover);
+                border-color: var(--cor-header-divisor);
+            }
+
+            &:disabled {
+                background-color: var(--cor-fundo-desabilitado);
+                color: var(--cor-texto-secundario);
+                cursor: not-allowed;
+                opacity: 0.6;
+            }
+        }
+
+        .bulk-dropdown-arrow {
+            font-size: 11px;
+            color: var(--cor-texto-secundario);
+        }
+
+        .delete-tickets-button img {
+            width: 15px;
+            height: 15px;
+            object-fit: contain;
+            filter: var(--filtro-icone);
+        }
+
+        .delete-tickets-button:not(:disabled) {
+            color: #BF3440;
+            border-color: #BF344040;
+
+            &:hover {
+                background-color: #BF344012;
+                border-color: #BF3440;
+            }
+        }
+
         .ticket-list-container {
             flex: 1;
             overflow-y: auto;
@@ -74,6 +140,20 @@
                     border-bottom: 1px solid var(--cor-fundo-ativo);
                 }
 
+                .ticket-checkbox-col {
+                    width: 42px;
+                    text-align: center;
+                    padding: 10px 12px;
+
+                    input[type="checkbox"] {
+                        width: 15px;
+                        height: 15px;
+                        cursor: pointer;
+                        accent-color: var(--azul-destaque-claro);
+                        vertical-align: middle;
+                    }
+                }
+
                 th {
                     background-color: var(--cor-fundo-secundario);
                     color: var(--cor-texto-secundario);
@@ -88,6 +168,10 @@
                 tr:hover {
                     background-color: var(--cor-fundo-hover-suave);
                     transition: 0.2s ease-in-out;
+                }
+
+                tr.selected {
+                    background-color: var(--cor-fundo-hover);
                 }
 
                 td {
@@ -123,5 +207,44 @@
                 }
             }
         }
+    }
+}
+
+.bulk-dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    min-width: 170px;
+    padding: 4px;
+    background-color: var(--cor-fundo-principal);
+    border: 1px solid var(--cor-fundo-ativo);
+    border-radius: 4px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+}
+
+.bulk-dropdown-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 3px;
+    background-color: transparent;
+    color: var(--cor-texto-principal);
+    font-family: var(--fonte-inter);
+    font-size: 12px;
+    text-align: left;
+    cursor: pointer;
+
+    img {
+        width: 15px;
+        height: 15px;
+        object-fit: contain;
+        filter: var(--filtro-icone);
+        opacity: 0.7;
+    }
+
+    &:hover {
+        background-color: var(--cor-fundo-hover);
     }
 }

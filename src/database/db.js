@@ -31,22 +31,63 @@ const FICTITIOUS_COMPANIES = [
   { nome: "Kappa Editora", email: "contato@kappa.com.br" }
 ];
 
+const DEFAULT_COMPANIES = FICTITIOUS_COMPANIES.map((company, index) => ({
+  id: index + 1,
+  nome: company.nome
+}));
+
+function generateRandomDigits(length) {
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    result += Math.floor(Math.random() * 10);
+  }
+  return result;
+}
+
+function generateUniqueId(existingIds, buildCandidate) {
+  const existingSet = new Set(existingIds.map((id) => String(id)));
+  let candidate = buildCandidate();
+
+  while (existingSet.has(candidate)) {
+    candidate = buildCandidate();
+  }
+
+  return candidate;
+}
+
 /**
- * Inicializa o banco com empresas fictícias se não houver clientes.
+ * Inicializa o banco com empresas e clientes fictícios se ainda não existirem.
  * Chamar assim que o módulo é importado (useEffect no cliente).
  */
 export function initFictitiousCompanies() {
   const db = getDB();
+  let updated = false;
+
+  if (!db.companies || db.companies.length === 0) {
+    db.companies = DEFAULT_COMPANIES;
+    updated = true;
+  }
+
   if (db.customers.length === 0) {
-    const customersWithCompany = FICTITIOUS_COMPANIES.map(company => ({
-      id: Date.now() + Math.random(), // IDs únicos
-      nome: company.nome,
-      email: company.email,
-      empresa: company.nome,
-      role: "customer",
-      criadoEm: new Date().toISOString()
-    }));
-    setCustomers(customersWithCompany);
+    const usedIds = [];
+    db.customers = FICTITIOUS_COMPANIES.map((company) => {
+      const id = generateUniqueId(usedIds, () => generateRandomDigits(8));
+      usedIds.push(id);
+
+      return {
+        id,
+        nome: company.nome,
+        email: company.email,
+        empresa: company.nome,
+        role: "customer",
+        criadoEm: new Date().toISOString()
+      };
+    });
+    updated = true;
+  }
+
+  if (updated) {
+    saveDB(db);
   }
 }
 
@@ -62,6 +103,7 @@ export function getDB() {
       // Retorna estrutura vazia esperada
       return {
         customers: [],
+        companies: [],
         agents: [],
         tickets: [],
         settings: { tema: "claro", lembrar: false, email: "" }
@@ -71,6 +113,7 @@ export function getDB() {
     // Garante que chaves existam
     return {
       customers: parsed.customers || [],
+      companies: parsed.companies || [],
       agents: parsed.agents || [],
       tickets: parsed.tickets || [],
       settings: parsed.settings || { tema: "claro", lembrar: false, email: "" }
@@ -80,6 +123,7 @@ export function getDB() {
     // Em caso de erro, retorna estrutura vazia
     return {
       customers: [],
+      companies: [],
       agents: [],
       tickets: [],
       settings: { tema: "claro", lembrar: false, email: "" }
@@ -119,6 +163,18 @@ export function addCustomer(customer) {
 }
 
 /**
+ * Companies (pré-cadastradas)
+ */
+export function getCompanies() {
+  const db = getDB();
+  if (!db.companies || db.companies.length === 0) {
+    db.companies = DEFAULT_COMPANIES;
+    saveDB(db);
+  }
+  return db.companies;
+}
+
+/**
  * Agents
  */
 export function getAgents() {
@@ -136,6 +192,30 @@ export function addAgent(agent) {
   if (!db.agents) db.agents = [];
   db.agents.push(agent);
   saveDB(db);
+}
+
+export function generateCustomerId() {
+  const existingIds = getCustomers().map((customer) => customer.id);
+  return generateUniqueId(existingIds, () => generateRandomDigits(8));
+}
+
+export function generateAgentId() {
+  const existingIds = getAgents().map((agent) => agent.id);
+  return generateUniqueId(existingIds, () => generateRandomDigits(8));
+}
+
+export function generateTicketId() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  const datePrefix = `${year}${month}${day}`;
+
+  const existingIds = getTickets().map((ticket) => ticket.id);
+  return generateUniqueId(
+    existingIds,
+    () => `${datePrefix}${generateRandomDigits(5)}`
+  );
 }
 
 /**
@@ -156,6 +236,16 @@ export function addTicket(ticket) {
   if (!db.tickets) db.tickets = [];
   db.tickets.push(ticket);
   saveDB(db);
+}
+
+export function deleteTickets(ticketIds) {
+  const idsToDelete = new Set(ticketIds.map((id) => String(id)));
+  const db = getDB();
+  db.tickets = (db.tickets || []).filter(
+    (ticket) => !idsToDelete.has(String(ticket.id))
+  );
+  saveDB(db);
+  return db.tickets;
 }
 
 /**

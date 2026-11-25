@@ -62,17 +62,6 @@ function Tickets() {
                     </div>
                     <p className="section-title">View</p>
                 </div>
-
-                <span className="divisor"></span>
-
-                <div className="subsection">
-                    <div className="horizontal-buttons-block">
-                        <HorizontalButton text="Responder" image="assets/import-data.png" disabled="True"/>
-                        <HorizontalButton text="Atualizar" image="assets/quick-assign.png" disabled="True"/>
-                        <HorizontalButton text="Mesclar" image="assets/settings.png" disabled="True"/>
-                    </div>
-                    <p className="section-title">Bulk</p>
-                </div>
             </div>
         </>
     )

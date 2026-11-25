@@ -119,7 +119,8 @@
     color: var(--cor-texto-principal);
 }
 
-.modal-field input {
+.modal-field input,
+.modal-field select {
     padding: 8px 12px;
     border: 1px solid var(--cor-fundo-ativo);
     border-radius: 4px;
@@ -129,7 +130,17 @@
     color: var(--cor-texto-principal);
 }
 
-.modal-field input:focus {
+.modal-field select {
+    cursor: pointer;
+}
+
+.modal-field select option {
+    background: var(--cor-fundo-principal);
+    color: var(--cor-texto-principal);
+}
+
+.modal-field input:focus,
+.modal-field select:focus {
     outline: none;
     border-color: var(--azul-destaque-claro);
 }

@@ -1,7 +1,7 @@
 import './css/LoginStyle.css'
 import { useNavigate } from 'react-router';
 import { useState } from 'react';
-import { addCustomer } from '../database/db';
+import { addCustomer, generateCustomerId } from '../database/db';
 
 function Cadastro() {
     const navigate = useNavigate();
@@ -48,7 +48,7 @@ function Cadastro() {
         if (!validar()) return;
 
         const customer = {
-            id: Date.now(),
+            id: generateCustomerId(),
             nome: nome.trim(),
             email: email.trim(),
             password,

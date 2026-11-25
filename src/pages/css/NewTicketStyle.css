@@ -167,6 +167,13 @@ body {
     align-items: center;
     padding: 0 12px;
     gap: 10px;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:focus-within,
+    &.open {
+        border-color: var(--azul-destaque-claro);
+        box-shadow: 0 0 0 2px rgba(10, 80, 241, 0.12);
+    }
 
     input {
         border: 0;
@@ -176,6 +183,124 @@ body {
         font: inherit;
         color: var(--cor-texto-principal);
     }
+}
+
+.client-combobox {
+    padding-right: 6px;
+}
+
+.dropdown-toggle-btn {
+    border: 0;
+    background: transparent;
+    color: var(--cor-texto-secundario);
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 13px;
+    flex-shrink: 0;
+    transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+
+    &:hover {
+        background: var(--cor-fundo-ativo);
+        color: var(--cor-texto-principal);
+    }
+
+    &.open {
+        transform: rotate(180deg);
+        color: var(--azul-destaque-claro);
+    }
+}
+
+.client-dropdown-menu {
+    background: var(--cor-fundo-principal);
+    border: 1px solid var(--cor-fundo-ativo);
+    border-radius: 6px;
+    box-shadow: 0 10px 28px rgba(19, 28, 47, 0.14);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: var(--fonte-inter);
+}
+
+.client-dropdown-list {
+    max-height: 220px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 4px;
+    gap: 2px;
+}
+
+.client-dropdown-option {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    padding: 9px 12px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-align: left;
+    font: 13px/1.35 var(--fonte-inter);
+    color: var(--cor-texto-principal);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background-color 0.12s ease;
+
+    &:hover {
+        background: var(--cor-fundo-secundario);
+    }
+
+    &.selected {
+        background: var(--cor-fundo-ativo);
+        font-weight: 600;
+    }
+
+    &.new-client {
+        border-radius: 0;
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--cor-fundo-ativo);
+        color: var(--azul-destaque-claro);
+        font-weight: 650;
+        background: var(--cor-fundo-principal);
+
+        &:hover {
+            background: var(--cor-fundo-secundario);
+        }
+    }
+}
+
+.client-option-name {
+    font-weight: 600;
+    color: var(--cor-texto-principal);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.client-option-sep {
+    color: var(--cor-texto-secundario);
+    opacity: 0.6;
+    flex-shrink: 0;
+}
+
+.client-option-company {
+    color: var(--cor-texto-secundario);
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.client-dropdown-empty {
+    padding: 14px 12px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--cor-texto-secundario);
 }
 
 .field-icon {
@@ -356,33 +481,46 @@ textarea {
 
 .upload-layout {
     display: grid;
-    grid-template-columns: 2.1fr 1.05fr;
-    gap: 10px;
+    grid-template-columns: 1.55fr 1.25fr;
+    gap: 12px;
+    align-items: stretch;
 }
 
 .dropzone {
-    min-height: 126px;
+    min-height: 152px;
+    padding: 20px 18px;
     border: 1px dashed var(--cor-fundo-ativo);
+    border-radius: 4px;
     background: var(--cor-fundo-secundario);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4px;
+    text-align: center;
+    gap: 6px;
     cursor: pointer;
     color: var(--cor-texto-principal);
+    transition: border-color 0.15s ease, background-color 0.15s ease;
+
+    &.dragging {
+        border-color: var(--azul-destaque-claro);
+        background: var(--cor-fundo-ativo);
+    }
 
     .cloud {
-        font-size: 25px;
+        font-size: 24px;
+        line-height: 1;
         color: var(--azul-destaque-claro);
     }
 
     strong {
-        font-size: 15px;
+        font-size: 14px;
+        line-height: 1.35;
     }
 
     > span:not(.cloud):not(.upload-button) {
         font-size: 12px;
+        line-height: 1.35;
         color: var(--cor-texto-secundario);
     }
 
@@ -393,42 +531,71 @@ textarea {
 
 .upload-button {
     margin-top: 4px;
-    padding: 5px 10px;
+    padding: 6px 12px;
     background: var(--cor-fundo-ativo);
     color: var(--azul-destaque-claro);
-    border-radius: 3px;
+    border-radius: 4px;
     font-size: 11px;
     font-weight: 700;
+    line-height: 1.3;
 }
 
 .file-list {
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 220px;
+    overflow-y: auto;
 }
 
-.file-item {
+.file-empty {
+    min-height: 152px;
     height: 100%;
-    min-height: 126px;
-    display: grid;
-    grid-template-columns: 28px 1fr 20px;
-    grid-template-rows: 1fr 27px;
-    gap: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 18px;
     background: var(--cor-fundo-secundario);
     border: 1px solid var(--cor-fundo-ativo);
     border-radius: 4px;
-    padding: 9px;
+    color: var(--cor-texto-secundario);
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.file-item {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr) 28px;
+    align-items: center;
+    gap: 10px;
+    background: var(--cor-fundo-secundario);
+    border: 1px solid var(--cor-fundo-ativo);
+    border-radius: 4px;
+    padding: 10px 12px;
+    flex-shrink: 0;
 }
 
 .file-symbol {
-    width: 27px;
-    height: 29px;
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
     background: var(--cor-fundo-ativo);
     color: var(--azul-destaque-claro);
     display: grid;
     place-items: center;
-    font-size: 18px;
+    font-size: 17px;
+    flex-shrink: 0;
 }
 
 .file-info {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    line-height: 1.35;
+
     strong,
     span,
     small {
@@ -437,7 +604,7 @@ textarea {
     }
 
     strong {
-        font-size: 11px;
+        font-size: 12px;
         color: var(--cor-texto-principal);
     }
 
@@ -449,16 +616,25 @@ textarea {
     small {
         font-size: 10px;
         color: var(--azul-destaque-claro);
-        margin-top: 2px;
+        margin-top: 1px;
     }
 }
 
 .delete-file {
+    width: 28px;
+    height: 28px;
     border: 0;
+    border-radius: 4px;
     background: transparent;
     color: #B43A47;
     cursor: pointer;
-    align-self: start;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    &:hover {
+        background: var(--cor-fundo-ativo);
+    }
 }
 
 .preview-file {
