@@ -40,12 +40,6 @@ function Users({ onNotify }) {
             <div className="option-set">
                 <div className="subsection">
                     <div className="vertical-buttons-block">
-                        <SplitButton
-                            text="Novo Cadastro"
-                            image="/assets/create-ticket.png"
-                            action={() => setShowCreateCustomer(true)}
-                            options={newUserOptions}
-                        />
                         <VerticalButton
                             text="Criar Cliente"
                             image="/assets/user.png"

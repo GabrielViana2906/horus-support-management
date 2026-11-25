@@ -143,7 +143,7 @@ function Tickets({ onNotify, onRefreshTickets }) {
                         action={() => handleNotImplemented('Filtros Salvos')}
                     />
                     <HorizontalButton
-                        text="Editar Formulário"
+                        text= "Formulário"
                         image="/assets/form-edit.png"
                         action={() => handleNotImplemented('Editar Formulário')}
                     />

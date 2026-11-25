@@ -56,10 +56,10 @@ function Cadastro() {
             criadoEm: new Date().toISOString()
         };
 
-        // Adiciona o cliente na lista customers do horus_db_v1 via camada de database
+        
         addCustomer(customer);
 
-        navigate('/'); // ajuste para a rota do seu login
+        navigate('/');
     }
 
     return (

@@ -1,6 +1,6 @@
 /**
  * Simulador de banco de dados local usando localStorage.
- * Estrutura esperada em horus_db_v1:
+ * Estrutura:
  * {
  *   customers: [],           // lista de clientes { id, nome, email, empresa, role }
  *   agents: [],              // lista de agentes { id, nome, email, role }
@@ -12,22 +12,19 @@
  *   }
  * }
  *
- * Função initDB(): preenche 10 empresas fictícias na primeira execução
+ * função initDB() vai preencher com 10 empresas fictícias na primeira execução
  * se não houver clientes cadastrados ainda.
  */
 
 const DB_KEY = "horus_db_v1";
 
 const FICTITIOUS_COMPANIES = [
-  { nome: "Acme Industries", email: "contato@acme.com" },
-  { nome: "Beta Soluções", email: "ola@beta.com.br" },
+  { nome: "Indústrias AK", email: "contato@acme.com" },
+  { nome: "Azure Soluções", email: "ola@beta.com.br" },
   { nome: "Gamma Consultoria", email: "suporte@gamma.com" },
   { nome: "Delta Comércio", email: "vendas@delta.com.br" },
-  { nome: "Epsilon Tech", email: "oi@epsilontech.com" },
+  { nome: "Epsilon Tecnologia", email: "oi@epsilontech.com" },
   { nome: "Zeta Serviços", email: "atendimento@zeta.com.br" },
-  { nome: "Eta Logística", email: "fretes@eta.com.br" },
-  { nome: "Theta Seguros", email: "sinistro@theta.com.br" },
-  { nome: "Iota Alimentos", email: "comercial@iota.com.br" },
   { nome: "Kappa Editora", email: "contato@kappa.com.br" }
 ];
 
@@ -49,13 +46,13 @@ const DEFAULT_TEAMS = [
   {
     id: "nivel-1",
     nome: "Nível 1",
-    descricao: "Triagem inicial, dúvidas operacionais e atendimentos rápidos.",
+    descricao: "Triagem inicial, dúvidas e atendimentos rápidos.",
     membros: []
   },
   {
     id: "nivel-2",
     nome: "Nível 2",
-    descricao: "Análise técnica intermediária, incidentes de aplicação e integrações.",
+    descricao: "Análise técnica, incidentes de aplicação e integrações.",
     membros: []
   },
   {
@@ -175,7 +172,6 @@ export function getDB() {
   try {
     const raw = localStorage.getItem(DB_KEY);
     if (!raw) {
-      // Retorna estrutura vazia esperada
       return {
         customers: [],
         companies: [],
@@ -188,7 +184,6 @@ export function getDB() {
       };
     }
     const parsed = JSON.parse(raw);
-    // Garante que chaves existam
     return {
       customers: parsed.customers || [],
       companies: parsed.companies || [],
@@ -215,9 +210,7 @@ export function getDB() {
   }
 }
 
-/**
- * Salva o objeto completo do banco no localStorage.
- */
+
 export function saveDB(db) {
   try {
     localStorage.setItem(DB_KEY, JSON.stringify(db));
@@ -226,9 +219,6 @@ export function saveDB(db) {
   }
 }
 
-/**
- * Customers
- */
 export function getCustomers() {
   return getDB().customers;
 }
@@ -246,9 +236,6 @@ export function addCustomer(customer) {
   saveDB(db);
 }
 
-/**
- * Companies (pré-cadastradas)
- */
 export function getCompanies() {
   const db = getDB();
   if (!db.companies || db.companies.length === 0) {
@@ -258,9 +245,6 @@ export function getCompanies() {
   return db.companies;
 }
 
-/**
- * Queues (filas pré-cadastradas)
- */
 export function getQueues() {
   const db = getDB();
   if (!db.queues || db.queues.length === 0) {
@@ -270,9 +254,6 @@ export function getQueues() {
   return db.queues;
 }
 
-/**
- * Teams (equipes pré-cadastradas)
- */
 export function getTeams() {
   const db = getDB();
   if (!db.teams || db.teams.length === 0) {
@@ -282,9 +263,6 @@ export function getTeams() {
   return db.teams;
 }
 
-/**
- * Agents
- */
 export function getAgents() {
   return getDB().agents;
 }
