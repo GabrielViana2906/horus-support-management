@@ -2,7 +2,6 @@ import { StrictMode, ViewTransition } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router';
 
-
 import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import NewTicket from './pages/NewTicket.jsx';
@@ -12,8 +11,12 @@ import './global-css/Variables.css';
 import './global-css/PageTransitions.css';
 
 import { ThemeProvider } from './context/ThemeContext.jsx';
+import { initFictitiousCompanies } from './database/db';
 
 function PageTransitionLayout() {
+    // Initialize fictitious companies when app starts
+    initFictitiousCompanies();
+
     return (
         <ViewTransition>
             <Outlet />

@@ -1,50 +1,89 @@
 /**
  * Simulador de banco de dados local usando localStorage.
- * Tudo é armazenado sob a chave 'horus_db_v1' com a seguinte estrutura:
- *
+ * Estrutura esperada em horus_db_v1:
  * {
- *   customers: [],        // lista de clientes (antes 'clients')
- *   agents: [],           // lista de agentes cadastrados
- *   tickets: [],          // lista de tickets cadastrados
- *   settings: {           // configurações gerais do sistema
- *     tema: 'claro',      // tema atual ('claro' ou 'escuro')
- *     lembrar: false,     // "lembrar de mim" do login
- *     email: ''           // e-mail salvo para preenchimento automático
+ *   customers: [],           // lista de clientes { id, nome, email, empresa, role }
+ *   agents: [],              // lista de agentes { id, nome, email, role }
+ *   tickets: [],             // lista de tickets
+ *   settings: {              // configurações gerais
+ *     tema: "claro",
+ *     lembrar: false,
+ *     email: ""
  *   }
  * }
+ *
+ * Função initDB(): preenche 10 empresas fictícias na primeira execução
+ * se não houver clientes cadastrados ainda.
  */
 
-const DB_KEY = 'horus_db_v1';
+const DB_KEY = "horus_db_v1";
 
-const EMPTY_DB = {
-  customers: [],
-  agents: [],
-  tickets: [],
-  settings: {
-    tema: 'claro',
-    lembrar: false,
-    email: ''
-  }
-};
+const FICTITIOUS_COMPANIES = [
+  { nome: "Acme Industries", email: "contato@acme.com" },
+  { nome: "Beta Soluções", email: "ola@beta.com.br" },
+  { nome: "Gamma Consultoria", email: "suporte@gamma.com" },
+  { nome: "Delta Comércio", email: "vendas@delta.com.br" },
+  { nome: "Epsilon Tech", email: "oi@epsilontech.com" },
+  { nome: "Zeta Serviços", email: "atendimento@zeta.com.br" },
+  { nome: "Eta Logística", email: "fretes@eta.com.br" },
+  { nome: "Theta Seguros", email: "sinistro@theta.com.br" },
+  { nome: "Iota Alimentos", email: "comercial@iota.com.br" },
+  { nome: "Kappa Editora", email: "contato@kappa.com.br" }
+];
 
 /**
- * Lê todo o banco do localStorage. Retorna um novo banco vazio se não houver nada.
- * Faz migração de bancos antigos (chave 'clients' → 'customers', 'agent' → 'agents').
+ * Inicializa o banco com empresas fictícias se não houver clientes.
+ * Chamar assim que o módulo é importado (useEffect no cliente).
+ */
+export function initFictitiousCompanies() {
+  const db = getDB();
+  if (db.customers.length === 0) {
+    const customersWithCompany = FICTITIOUS_COMPANIES.map(company => ({
+      id: Date.now() + Math.random(), // IDs únicos
+      nome: company.nome,
+      email: company.email,
+      empresa: company.nome,
+      role: "customer",
+      criadoEm: new Date().toISOString()
+    }));
+    setCustomers(customersWithCompany);
+  }
+}
+
+/**
+ * Lê o banco do localStorage.
+ * Retorna a estrutura completa se houver dados, ou objeto vazio se não houver.
+ * NÃO realiza migração automática de estruturas antigas.
  */
 export function getDB() {
   try {
     const raw = localStorage.getItem(DB_KEY);
-    if (!raw) return { ...EMPTY_DB };
+    if (!raw) {
+      // Retorna estrutura vazia esperada
+      return {
+        customers: [],
+        agents: [],
+        tickets: [],
+        settings: { tema: "claro", lembrar: false, email: "" }
+      };
+    }
     const parsed = JSON.parse(raw);
+    // Garante que chaves existam
     return {
-      customers: Array.isArray(parsed.customers) ? parsed.customers : (Array.isArray(parsed.clients) ? parsed.clients : []),
-      agents: Array.isArray(parsed.agents) ? parsed.agents : (parsed.agent ? [parsed.agent] : []),
-      tickets: Array.isArray(parsed.tickets) ? parsed.tickets : [],
-      settings: parsed.settings || { ...EMPTY_DB.settings }
+      customers: parsed.customers || [],
+      agents: parsed.agents || [],
+      tickets: parsed.tickets || [],
+      settings: parsed.settings || { tema: "claro", lembrar: false, email: "" }
     };
   } catch (e) {
-    console.error('Erro ao ler banco de dados:', e);
-    return { ...EMPTY_DB };
+    console.error("Erro ao ler banco de dados:", e);
+    // Em caso de erro, retorna estrutura vazia
+    return {
+      customers: [],
+      agents: [],
+      tickets: [],
+      settings: { tema: "claro", lembrar: false, email: "" }
+    };
   }
 }
 
@@ -55,7 +94,7 @@ export function saveDB(db) {
   try {
     localStorage.setItem(DB_KEY, JSON.stringify(db));
   } catch (e) {
-    console.error('Erro ao salvar banco de dados:', e);
+    console.error("Erro ao salvar banco de dados:", e);
   }
 }
 
@@ -120,7 +159,7 @@ export function addTicket(ticket) {
 }
 
 /**
- * Configurações (tema, lembrar de mim, e-mail salvo)
+ * Settings (tema, lembrar de mim, e-mail)
  */
 export function getSetting(key) {
   return getDB().settings[key];
@@ -128,7 +167,6 @@ export function getSetting(key) {
 
 export function setSetting(key, value) {
   const db = getDB();
-  if (!db.settings) db.settings = { ...EMPTY_DB.settings };
   db.settings[key] = value;
   saveDB(db);
 }
