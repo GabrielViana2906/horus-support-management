@@ -1,38 +1,78 @@
 .guides {
-        font-family: var(--fonte-inter);
-        font-size: 12px;
-        width: 100%;
-        margin-bottom: 5px;
-        background-color: var(--cor-toolbar-guia-fundo);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-family: var(--fonte-inter);
+    font-size: 12px;
+    width: 100%;
+    padding-right: 10px;
+    background-color: var(--cor-toolbar-guia-fundo);
+    border-bottom: 1px solid var(--cor-fundo-ativo);
 
-        ul {
-            display: flex;
-            list-style: none;
-            justify-content: start;
+    ul {
+        display: flex;
+        list-style: none;
+        justify-content: flex-start;
+        overflow-x: auto;
+        min-width: 0;
 
-            button {
-                padding: 6px 12px;
-                margin-right: 10px;
-                font-weight: 400;
-                border: none;
-                background-color: transparent;
+        li {
+            flex-shrink: 0;
+        }
 
-                span {
-                    text-decoration: none;
-                    color: var(--cor-sidebar-texto);
-                }
+        button {
+            padding: 8px 12px;
+            margin-right: 6px;
+            font-weight: 400;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+
+            span {
+                text-decoration: none;
+                color: var(--cor-sidebar-texto);
+                white-space: nowrap;
             }
+        }
 
-            .active {
+        .active {
+            color: var(--cor-workspace-guia-ativa);
+            font-weight: bold;
+            border-bottom: 3px solid var(--cor-workspace-guia-ativa);
+            background-color: var(--cor-fundo-desabilitado);
+
+            span {
+                text-decoration: none;
                 color: var(--cor-workspace-guia-ativa);
-                font-weight: bold;
-                border-bottom: 3px solid var(--cor-workspace-guia-ativa);
-                background-color: var(--cor-fundo-desabilitado);
-
-                span {
-                    text-decoration: none;
-                    color: var(--cor-workspace-guia-ativa);
-                }
             }
         }
     }
+}
+
+.guides-collapse-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid var(--cor-fundo-ativo);
+    border-radius: 4px;
+    background-color: var(--cor-fundo-principal);
+    color: var(--cor-texto-secundario);
+    font-family: var(--fonte-inter);
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    flex-shrink: 0;
+
+    &:hover {
+        color: var(--cor-texto-principal);
+        background-color: var(--cor-fundo-hover);
+    }
+}
+
+@media (max-width: 600px) {
+    .guides-collapse-label {
+        display: none;
+    }
+}

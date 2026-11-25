@@ -3,26 +3,27 @@
     flex-direction: column;
     width: 100%;
     flex-shrink: 0;
-    min-height: max-content;
     padding: 0;
     background-color: var(--cor-fundo-principal);
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
 
     img {
         filter: var(--filtro-icone);
     }
 }
 
-.toolbar::-webkit-scrollbar {
+.toolbar-scroll {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+.toolbar-scroll::-webkit-scrollbar {
     display: none;
 }
 
 .toolbar-content {
     display: flex;
     flex-direction: column;
-    min-width: 900px;
-
-    
+    min-width: max-content;
 }

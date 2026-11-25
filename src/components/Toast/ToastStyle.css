@@ -1,0 +1,103 @@
+.app-toast {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    min-width: 290px;
+    max-width: 440px;
+    border-radius: 8px;
+    color: #FFFFFF;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.24);
+    overflow: hidden;
+    z-index: 1200;
+    font-family: var(--fonte-inter);
+    animation: toast-slide-in 0.2s ease;
+
+    &.success {
+        background: #16A34A;
+    }
+
+    &.error {
+        background: #DC2626;
+    }
+
+    &.warning {
+        background: #D97706;
+    }
+
+    &.info {
+        background: #0A50F1;
+    }
+}
+
+.app-toast-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 20px;
+}
+
+.app-toast-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.22);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.app-toast-message {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.app-toast-progress-track {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.app-toast-progress-bar {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    transform-origin: left;
+    animation-name: toast-progress-shrink;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes toast-slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes toast-progress-shrink {
+    from {
+        transform: scaleX(1);
+    }
+
+    to {
+        transform: scaleX(0);
+    }
+}
+
+@media (max-width: 600px) {
+    .app-toast {
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
+        min-width: 0;
+    }
+}

@@ -6,12 +6,18 @@
         "footer footer";
     grid-template-columns: 200px 1fr;
     grid-template-rows: auto 1fr auto;
-    min-height: 100vh;
+    height: 100vh;
     overflow: hidden;
+    transition: grid-template-columns 0.2s ease;
+}
+
+.home.sidebar-collapsed {
+    grid-template-columns: 48px 1fr;
 }
 
 @media (max-width: 700px) {
-    .home {
+    .home,
+    .home.sidebar-collapsed {
         grid-template-areas:
             "header"
             "sidebar"
@@ -26,6 +32,7 @@
 
 main {
     grid-area: main;
+    min-height: 0;
     background-color: var(--cor-fundo-principal);
     overflow-y: auto;
 }

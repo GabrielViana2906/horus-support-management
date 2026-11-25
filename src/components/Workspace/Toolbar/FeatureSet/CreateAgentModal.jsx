@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { addAgent, generateAgentId } from '../../../../database/db';
 import './FeatureSetStyle.css';
 
-export default function CreateAgentModal({ onClose }) {
+export default function CreateAgentModal({ onClose, onCreated }) {
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -56,6 +56,7 @@ export default function CreateAgentModal({ onClose }) {
         };
 
         addAgent(agent);
+        onCreated?.(agent);
         onClose();
     }
 

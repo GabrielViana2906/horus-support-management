@@ -5,6 +5,7 @@ import { addTicket, generateTicketId, getCustomers } from "../database/db";
 
 import Footer from "../components/Footer/Footer";
 import Header from "../components/Header/Header";
+import Toast from "../components/Toast/Toast";
 
 import ToggleButtonGroup from "../components/Forms/ToggleButton/ToggleButtonGroup.jsx";
 import CreateCustomerModal from "../components/Workspace/Toolbar/FeatureSet/CreateCustomerModal.jsx";
@@ -49,8 +50,7 @@ function NewTicket() {
     const [isDragging, setIsDragging] = useState(false);
 
     // Notificações
-    const [toast, setToast] = useState("");
-    const [errorToast, setErrorToast] = useState(false);
+    const [toast, setToast] = useState({ message: "", type: "info", key: 0 });
 
     const descriptionRef = useRef(null);
     const toastTimeoutRef = useRef(null);
@@ -119,15 +119,21 @@ function NewTicket() {
     }, []);
 
     // Exibe notificações temporárias
-    function showToast(message, error = false) {
-        setToast(message);
-        setErrorToast(error);
+    function showToast(message, typeOrError = "info") {
+        const type =
+            typeOrError === true
+                ? "error"
+                : typeOrError === false
+                ? "success"
+                : typeOrError;
+
+        setToast((prev) => ({ message, type, key: prev.key + 1 }));
 
         clearTimeout(toastTimeoutRef.current);
 
         toastTimeoutRef.current = setTimeout(() => {
-            setToast("");
-        }, 3200);
+            setToast((prev) => ({ ...prev, message: "" }));
+        }, 3500);
     }
 
     // Formata o texto selecionado na descrição
@@ -402,6 +408,9 @@ function NewTicket() {
             impact: selectedImpact,
             description: description,
             status: 'Aberto',
+            queue: 'Não avaliados',
+            caseSummary: '',
+            messages: [],
             priority: selectedImpact === 'Crítico' ? 'Alta' : selectedImpact === 'Urgente' ? 'Média' : 'Baixa',
             createdAt: new Date().toISOString()
         };
@@ -409,7 +418,7 @@ function NewTicket() {
         // Adiciona o ticket na lista tickets do horus_db_v1 via camada de database
         addTicket(ticket);
 
-        showToast(`Ticket criado com sucesso! ID: #${ticket.id}`);
+        showToast(`Chamado criado com sucesso! ID: #${ticket.id}`, "success");
 
         // Retorna para o home/workspace após salvar
         setTimeout(() => {
@@ -456,9 +465,7 @@ function NewTicket() {
                 (event.ctrlKey || event.metaKey) &&
                 event.key.toLowerCase() === "k"
             ) {
-                const searchInput = document.querySelector(
-                    ".search-box input"
-                );
+                const searchInput = document.querySelector(".search-bar");
 
                 if (searchInput) {
                     event.preventDefault();
@@ -467,9 +474,7 @@ function NewTicket() {
             }
 
             if (event.key === "/" && !isTyping) {
-                const searchInput = document.querySelector(
-                    ".search-box input"
-                );
+                const searchInput = document.querySelector(".search-bar");
 
                 if (searchInput) {
                     event.preventDefault();
@@ -495,7 +500,7 @@ function NewTicket() {
             <main className="page">
                 <div className="breadcrumbs">
                     <span>
-                        Workspace › <strong>New Ticket</strong>
+                        Área de Trabalho › <strong>Novo Chamado</strong>
                     </span>
                 </div>
 
@@ -955,7 +960,7 @@ function NewTicket() {
                         className="secondary-button"
                         onClick={handleBackHome}
                     >
-                        ← Home
+                        ← Área de Trabalho
                     </button>
 
                     <div className="footer-actions">
@@ -964,7 +969,7 @@ function NewTicket() {
                             form="ticketForm"
                             className="secondary-button"
                         >
-                            ▷ &nbsp;Enviar Ticket Agora
+                            ▷ &nbsp;Enviar Chamado Agora
                         </button>
 
                         <button
@@ -978,20 +983,12 @@ function NewTicket() {
                     </div>
                 </footer>
 
-                {/* Notificação */}
-
-                <div
-                    id="toast"
-                    className={`toast ${
-                        toast
-                            ? `show${errorToast ? " error" : ""}`
-                            : ""
-                    }`}
-                    role="status"
-                    aria-live="polite"
-                >
-                    {toast}
-                </div>
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    duration={3500}
+                    toastKey={toast.key}
+                />
             </main>
 
             {showCreateCustomerModal && (

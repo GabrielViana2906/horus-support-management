@@ -1,35 +1,39 @@
-import './css/LoginStyle.css'
+import './css/LoginStyle.css';
 import { useNavigate } from 'react-router';
 import { useState, useEffect } from 'react';
-import { getSetting, setSetting, getAgents } from '../database/db';
+import { getSetting, setSetting, getAgents, setCurrentUser } from '../database/db';
 
 function Login() {
     const navigate = useNavigate();
-    const [lembrar, setLembrar] = useState(getSetting('lembrar') || false);
-    const [emailSalvo, setEmailSalvo] = useState(getSetting('email') || '');
-    const [perfil, setPerfil] = useState('agent'); // 'agent' ou 'customer'
-    const [email, setEmail] = useState(lembrar ? emailSalvo : '');
+    const [lembrar, setLembrar] = useState(() => getSetting('lembrar') || false);
+    const [perfil, setPerfil] = useState('agent');
+    const [email, setEmail] = useState(() =>
+        getSetting('lembrar') ? getSetting('email') || '' : ''
+    );
     const [password, setPassword] = useState('');
     const [erros, setErros] = useState({ email: '', password: '', geral: '' });
 
     useEffect(() => {
         setSetting('lembrar', lembrar);
-        setSetting('email', emailSalvo);
-    }, [lembrar, emailSalvo]);
+        if (!lembrar) {
+            setSetting('email', '');
+        }
+    }, [lembrar]);
 
     function validar() {
         const novosErros = { email: '', password: '', geral: '' };
+        const emailDigitado = email.trim().toLowerCase();
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!email.trim()) {
-            novosErros.email = 'Informe seu e-mail.';
-        } else if (!emailRegex.test(email)) {
+        if (!emailDigitado) {
+            novosErros.email = 'Informe seu e-mail ou usuário.';
+        } else if (emailDigitado !== 'admin' && !emailRegex.test(emailDigitado)) {
             novosErros.email = 'Digite um e-mail válido (ex: nome@empresa.com).';
         }
 
         if (!password) {
             novosErros.password = 'Informe sua senha.';
-        } else if (password.length < 6) {
+        } else if (emailDigitado !== 'admin' && password.length < 6) {
             novosErros.password = 'A senha deve ter pelo menos 6 caracteres.';
         }
 
@@ -42,7 +46,6 @@ function Login() {
 
         if (!validar()) return;
 
-        // Por enquanto só acesso de agente está habilitado
         if (perfil !== 'agent') {
             setErros((prev) => ({
                 ...prev,
@@ -62,7 +65,9 @@ function Login() {
         }
 
         const emailDigitado = email.trim().toLowerCase();
-        const agent = agents.find(a => (a.email || '').trim().toLowerCase() === emailDigitado);
+        const agent = agents.find(
+            (a) => (a.email || '').trim().toLowerCase() === emailDigitado
+        );
 
         if (!agent) {
             setErros((prev) => ({
@@ -87,6 +92,17 @@ function Login() {
             }));
             return;
         }
+
+        if (lembrar) {
+            setSetting('email', email.trim());
+        }
+
+        setCurrentUser({
+            id: agent.id,
+            nome: agent.nome,
+            email: agent.email,
+            role: agent.role
+        });
 
         navigate('/home');
     }

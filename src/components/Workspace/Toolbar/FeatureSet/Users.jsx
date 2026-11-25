@@ -1,52 +1,126 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
 import './FeatureSetStyle.css';
 import VerticalButton from '../Buttons/VerticalButton';
 import SplitButton from '../Buttons/SplitButton';
+import HorizontalButton from '../Buttons/HorizontalButton';
 import CreateAgentModal from './CreateAgentModal';
+import CreateCustomerModal from './CreateCustomerModal';
 
-function Users() {
-
-    const navigate = useNavigate();
+function Users({ onNotify }) {
     const [showCreateAgent, setShowCreateAgent] = useState(false);
+    const [showCreateCustomer, setShowCreateCustomer] = useState(false);
 
-    const newCustomerOptions = [
+    function handleNotImplemented(featureName) {
+        onNotify?.(`"${featureName}" estará disponível em breve.`, 'info');
+    }
+
+    const newUserOptions = [
         {
-            id: 'organization',
-            label: 'Organization',
-            image: '/assets/organization.png',
-            action: () => navigate('/newTicket')
+            id: 'customer',
+            label: 'Novo Cliente',
+            image: '/assets/user.png',
+            action: () => setShowCreateCustomer(true)
         },
         {
-            id: 'user',
-            label: 'Customer User',
-            image: '/assets/user.png',
-            action: () => navigate('/newTicket')
+            id: 'agent',
+            label: 'Novo Agente',
+            image: '/assets/shield.png',
+            action: () => setShowCreateAgent(true)
+        },
+        {
+            id: 'organization',
+            label: 'Organização',
+            image: '/assets/organization.png',
+            action: () => handleNotImplemented('Cadastro de Organização')
         }
-    ]
+    ];
 
-    return(
+    return (
         <>
-        <div className="option-set">
-            <div>
-                <div className="vertical-buttons-block">
-                    <SplitButton text="New Customer" image="assets/create-ticket.png" options={newCustomerOptions}/>
-                    <VerticalButton text="Manage Customers" image="assets/user-management.png"/>
-                    <VerticalButton text="Bulk Import" image="assets/bulk-user-import.png"/>
-                    <VerticalButton text="Manage Groups" image="assets/group-management.png"/>
-                    <VerticalButton text="Criar agente" image="/assets/create-ticket.png" action={() => setShowCreateAgent(true)}/>
+            <div className="option-set">
+                <div className="subsection">
+                    <div className="vertical-buttons-block">
+                        <SplitButton
+                            text="Novo Cadastro"
+                            image="/assets/create-ticket.png"
+                            action={() => setShowCreateCustomer(true)}
+                            options={newUserOptions}
+                        />
+                        <VerticalButton
+                            text="Criar Cliente"
+                            image="/assets/user.png"
+                            action={() => setShowCreateCustomer(true)}
+                        />
+                        <VerticalButton
+                            text="Criar Agente"
+                            image="/assets/shield.png"
+                            action={() => setShowCreateAgent(true)}
+                        />
+                    </div>
+                    <p className="section-title">Cadastros</p>
                 </div>
-                <p className='section-title'>User Operations</p>
+
+                <span className="divisor"></span>
+
+                <div className="subsection">
+                    <div className="vertical-buttons-block">
+                        <VerticalButton
+                            text="Gerenciar Clientes"
+                            image="/assets/user-management.png"
+                            action={() => handleNotImplemented('Gerenciar Clientes')}
+                        />
+                        <VerticalButton
+                            text="Importar em Lote"
+                            image="/assets/bulk-user-import.png"
+                            action={() => handleNotImplemented('Importação em Lote')}
+                        />
+                        <VerticalButton
+                            text="Gerenciar Equipes"
+                            image="/assets/group-management.png"
+                            action={() => handleNotImplemented('Gerenciar Equipes')}
+                        />
+                    </div>
+                    <p className="section-title">Gestão de Usuários</p>
+                </div>
+
+                <span className="divisor"></span>
+
+                <div className="subsection">
+                    <div className="horizontal-buttons-block">
+                        <HorizontalButton
+                            text="Empresas"
+                            image="/assets/organization.png"
+                            action={() => handleNotImplemented('Empresas')}
+                        />
+                        <HorizontalButton
+                            text="Perfis e Acesso"
+                            image="/assets/settings.png"
+                            action={() => handleNotImplemented('Perfis e Acesso')}
+                        />
+                    </div>
+                    <p className="section-title">Organizações</p>
+                </div>
             </div>
 
-            <div className="divisor"></div>
-        </div>
+            {showCreateAgent && (
+                <CreateAgentModal
+                    onClose={() => setShowCreateAgent(false)}
+                    onCreated={() =>
+                        onNotify?.('Agente cadastrado com sucesso!', 'success')
+                    }
+                />
+            )}
 
-        {showCreateAgent && <CreateAgentModal onClose={() => setShowCreateAgent(false)} />}
-
+            {showCreateCustomer && (
+                <CreateCustomerModal
+                    onClose={() => setShowCreateCustomer(false)}
+                    onCreated={() =>
+                        onNotify?.('Cliente cadastrado com sucesso!', 'success')
+                    }
+                />
+            )}
         </>
-    )
-
+    );
 }
 
 export default Users;

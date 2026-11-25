@@ -1,28 +1,19 @@
-import { StrictMode, ViewTransition } from 'react';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route, Outlet } from 'react-router';
+import { BrowserRouter, Routes, Route } from 'react-router';
 
 import Home from './pages/Home.jsx';
 import Login from './pages/Login.jsx';
 import NewTicket from './pages/NewTicket.jsx';
 import Cadastro from './pages/Cadastro.jsx';
+import TicketDetails from './pages/TicketDetails.jsx';
 
 import './global-css/Variables.css';
 import './global-css/PageTransitions.css';
 
 import { ThemeProvider } from './context/ThemeContext.jsx';
-import { initFictitiousCompanies } from './database/db';
-
-function PageTransitionLayout() {
-    // Initialize fictitious companies when app starts
-    initFictitiousCompanies();
-
-    return (
-        <ViewTransition>
-            <Outlet />
-        </ViewTransition>
-    );
-}
+import ProtectedRoute from './components/ProtectedRoute.jsx';
+import PageTransitionLayout from './components/PageTransitionLayout.jsx';
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
@@ -31,8 +22,30 @@ createRoot(document.getElementById('root')).render(
                 <Routes>
                     <Route element={<PageTransitionLayout />}>
                         <Route path="/" element={<Login />} />
-                        <Route path="/home" element={<Home />} />
-                        <Route path="/newTicket" element={<NewTicket />} />
+                        <Route
+                            path="/home"
+                            element={
+                                <ProtectedRoute>
+                                    <Home />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/newTicket"
+                            element={
+                                <ProtectedRoute>
+                                    <NewTicket />
+                                </ProtectedRoute>
+                            }
+                        />
+                        <Route
+                            path="/ticket/:id"
+                            element={
+                                <ProtectedRoute>
+                                    <TicketDetails />
+                                </ProtectedRoute>
+                            }
+                        />
                         <Route path="/cadastro" element={<Cadastro />} />
                     </Route>
                 </Routes>

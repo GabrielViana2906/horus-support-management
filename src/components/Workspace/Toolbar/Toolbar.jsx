@@ -3,39 +3,56 @@ import Guide from './Guide/Guide.jsx';
 import './ToolbarStyle.css';
 import Tickets from './FeatureSet/Tickets.jsx';
 import Users from './FeatureSet/Users.jsx';
+import Communication from './FeatureSet/Communication.jsx';
+import Automation from './FeatureSet/Automation.jsx';
 
-function Toolbar() {
+function Toolbar({ onNotify, onRefreshTickets }) {
     const [activeGuideItem, setActiveGuideItem] = useState('Tickets');
+    const [isCollapsed, setIsCollapsed] = useState(false);
 
     function renderizeButtons() {
         switch (activeGuideItem) {
             case 'Tickets':
-                return <Tickets />;
+                return (
+                    <Tickets
+                        onNotify={onNotify}
+                        onRefreshTickets={onRefreshTickets}
+                    />
+                );
 
             case 'Users':
-                return <Users />;
+                return <Users onNotify={onNotify} />;
 
             case 'Communication':
-                return <p>Em desenvolvimento Communication</p>;
+                return <Communication onNotify={onNotify} />;
 
             case 'Automation':
-                return <p>Em desenvolvimento Automation</p>;
+                return <Automation onNotify={onNotify} />;
 
             default:
-                return <Tickets />;
+                return (
+                    <Tickets
+                        onNotify={onNotify}
+                        onRefreshTickets={onRefreshTickets}
+                    />
+                );
         }
     }
 
     return (
-        <div className="toolbar">
-            <div className="toolbar-content">
-                <Guide
-                    activeGuideItem={activeGuideItem}
-                    setActiveGuideItem={setActiveGuideItem}
-                />
+        <div className={`toolbar ${isCollapsed ? 'collapsed' : ''}`}>
+            <Guide
+                activeGuideItem={activeGuideItem}
+                setActiveGuideItem={setActiveGuideItem}
+                collapsed={isCollapsed}
+                onToggleCollapse={() => setIsCollapsed((prev) => !prev)}
+            />
 
-                {renderizeButtons()}
-            </div>
+            {!isCollapsed && (
+                <div className="toolbar-scroll">
+                    <div className="toolbar-content">{renderizeButtons()}</div>
+                </div>
+            )}
         </div>
     );
 }

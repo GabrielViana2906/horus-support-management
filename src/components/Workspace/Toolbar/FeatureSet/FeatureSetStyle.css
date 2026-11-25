@@ -1,22 +1,30 @@
 .option-set {
     display: flex;
     justify-content: flex-start;
-    align-items: center;
-    padding: 5px;
+    align-items: stretch;
+    padding: 8px 10px;
     border-bottom: 1px solid var(--cor-fundo-ativo);
+    gap: 4px;
+}
+
+.subsection {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .vertical-buttons-block {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 10px;
+    justify-content: flex-start;
+    margin-bottom: 8px;
 }
 
 .horizontal-buttons-block {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    margin-bottom: 6px;
 }
 
 .section-title {
@@ -29,10 +37,10 @@
 }
 
 .divisor {
-    width: 0.5px;
-    height: 90%;
+    width: 1px;
+    align-self: stretch;
     background-color: var(--cor-header-divisor);
-    margin: 0 10px;
+    margin: 4px 10px;
 }
 
 .modal-overlay {
@@ -166,7 +174,7 @@
     display: flex;
     justify-content: flex-end;
     gap: 12px;
-    padding: 0 20px 20px 20px;
+    padding: 16px 0 0 0;
     margin-top: 8px;
     border-top: 1px solid var(--cor-fundo-ativo);
 }

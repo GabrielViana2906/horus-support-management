@@ -36,6 +36,48 @@ const DEFAULT_COMPANIES = FICTITIOUS_COMPANIES.map((company, index) => ({
   nome: company.nome
 }));
 
+const DEFAULT_QUEUES = [
+  { id: "nao-avaliados", nome: "Não avaliados" },
+  { id: "chamados-tecnicos", nome: "Chamados Técnicos" },
+  { id: "projetos", nome: "Projetos" },
+  { id: "chamados-licenca", nome: "Chamados de Licença" },
+  { id: "negociacoes", nome: "Negociações" },
+  { id: "financeiro", nome: "Financeiro" }
+];
+
+const DEFAULT_TEAMS = [
+  {
+    id: "nivel-1",
+    nome: "Nível 1",
+    descricao: "Triagem inicial, dúvidas operacionais e atendimentos rápidos.",
+    membros: []
+  },
+  {
+    id: "nivel-2",
+    nome: "Nível 2",
+    descricao: "Análise técnica intermediária, incidentes de aplicação e integrações.",
+    membros: []
+  },
+  {
+    id: "nivel-3",
+    nome: "Nível 3",
+    descricao: "Infraestrutura crítica, bugs complexos e escalonamento especializado.",
+    membros: []
+  },
+  {
+    id: "marketing",
+    nome: "Marketing",
+    descricao: "Demandas de campanhas, comunicação e materiais institucionais.",
+    membros: []
+  },
+  {
+    id: "licenca",
+    nome: "Licença",
+    descricao: "Gestão de licenciamento, renovações, acessos e ativações.",
+    membros: []
+  }
+];
+
 function generateRandomDigits(length) {
   let result = "";
   for (let i = 0; i < length; i++) {
@@ -65,6 +107,39 @@ export function initFictitiousCompanies() {
 
   if (!db.companies || db.companies.length === 0) {
     db.companies = DEFAULT_COMPANIES;
+    updated = true;
+  }
+
+  if (!db.queues || db.queues.length === 0) {
+    db.queues = DEFAULT_QUEUES;
+    updated = true;
+  }
+
+  if (!db.teams || db.teams.length === 0) {
+    db.teams = DEFAULT_TEAMS;
+    updated = true;
+  }
+
+  const hasAdmin = (db.agents || []).some(
+    (agent) => (agent.email || "").toLowerCase() === "admin"
+  );
+
+  if (!hasAdmin) {
+    if (!db.agents) db.agents = [];
+    const existingIds = db.agents.map((agent) => agent.id);
+    const adminId = existingIds.includes("00000001")
+      ? generateUniqueId(existingIds, () => generateRandomDigits(8))
+      : "00000001";
+
+    db.agents.push({
+      id: adminId,
+      nome: "Administrador",
+      email: "admin",
+      password: "admin",
+      role: "agent",
+      exigirTrocaSenha: 0,
+      criadoEm: new Date().toISOString()
+    });
     updated = true;
   }
 
@@ -104,8 +179,11 @@ export function getDB() {
       return {
         customers: [],
         companies: [],
+        queues: [],
+        teams: [],
         agents: [],
         tickets: [],
+        currentUser: null,
         settings: { tema: "claro", lembrar: false, email: "" }
       };
     }
@@ -114,8 +192,11 @@ export function getDB() {
     return {
       customers: parsed.customers || [],
       companies: parsed.companies || [],
+      queues: parsed.queues || [],
+      teams: parsed.teams || [],
       agents: parsed.agents || [],
       tickets: parsed.tickets || [],
+      currentUser: parsed.currentUser || null,
       settings: parsed.settings || { tema: "claro", lembrar: false, email: "" }
     };
   } catch (e) {
@@ -124,8 +205,11 @@ export function getDB() {
     return {
       customers: [],
       companies: [],
+      queues: [],
+      teams: [],
       agents: [],
       tickets: [],
+      currentUser: null,
       settings: { tema: "claro", lembrar: false, email: "" }
     };
   }
@@ -172,6 +256,30 @@ export function getCompanies() {
     saveDB(db);
   }
   return db.companies;
+}
+
+/**
+ * Queues (filas pré-cadastradas)
+ */
+export function getQueues() {
+  const db = getDB();
+  if (!db.queues || db.queues.length === 0) {
+    db.queues = DEFAULT_QUEUES;
+    saveDB(db);
+  }
+  return db.queues;
+}
+
+/**
+ * Teams (equipes pré-cadastradas)
+ */
+export function getTeams() {
+  const db = getDB();
+  if (!db.teams || db.teams.length === 0) {
+    db.teams = DEFAULT_TEAMS;
+    saveDB(db);
+  }
+  return db.teams;
 }
 
 /**
@@ -238,6 +346,25 @@ export function addTicket(ticket) {
   saveDB(db);
 }
 
+export function updateTicket(ticketId, updates) {
+  const db = getDB();
+  let updatedTicket = null;
+
+  db.tickets = (db.tickets || []).map((ticket) => {
+    if (String(ticket.id) === String(ticketId)) {
+      updatedTicket = { ...ticket, ...updates };
+      return updatedTicket;
+    }
+    return ticket;
+  });
+
+  if (updatedTicket) {
+    saveDB(db);
+  }
+
+  return updatedTicket;
+}
+
 export function deleteTickets(ticketIds) {
   const idsToDelete = new Set(ticketIds.map((id) => String(id)));
   const db = getDB();
@@ -268,5 +395,21 @@ export function getSettings() {
 export function setSettings(settings) {
   const db = getDB();
   db.settings = settings;
+  saveDB(db);
+}
+
+export function getCurrentUser() {
+  return getDB().currentUser;
+}
+
+export function setCurrentUser(user) {
+  const db = getDB();
+  db.currentUser = user;
+  saveDB(db);
+}
+
+export function clearCurrentUser() {
+  const db = getDB();
+  db.currentUser = null;
   saveDB(db);
 }

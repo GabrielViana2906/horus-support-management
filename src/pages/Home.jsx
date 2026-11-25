@@ -5,34 +5,51 @@ import Footer from '../components/Footer/Footer.jsx';
 import Workspace from '../components/Workspace/Workspace.jsx';
 import ITAssets from '../components/ITAssets/ITAssets.jsx';
 import { useState } from 'react';
+import { useSearchParams } from 'react-router';
 
 function Home() {
-
+    const [searchParams, setSearchParams] = useSearchParams();
     const [activeModule, setActiveModule] = useState('workspace');
+    const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-    // Renderiza o módulo ativo dentro do Main
+    const searchQuery = searchParams.get('busca') || '';
+
+    function handleSearchChange(value) {
+        if (value) {
+            setSearchParams({ busca: value }, { replace: true });
+        } else {
+            setSearchParams({}, { replace: true });
+        }
+    }
+
     function renderizeModule() {
         switch (activeModule) {
             case 'workspace':
-                return <Workspace/>;
+                return <Workspace searchQuery={searchQuery} />;
             case 'itassets':
-                return <ITAssets/>;
+                return <ITAssets />;
             default:
-                return <ITAssets/>;
-        }    
+                return <ITAssets />;
+        }
     }
 
     return (
-        <>
-            <div className="home">  
-                <Header/>
-                <Sidebar activeModule={activeModule} onNavigate={setActiveModule}/>  
-                <main>
-                    {renderizeModule()}
-                </main>
-                <Footer/>
-            </div>
-        </>
+        <div className={`home ${sidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
+            <Header
+                searchQuery={searchQuery}
+                onSearchChange={handleSearchChange}
+            />
+            <Sidebar
+                activeModule={activeModule}
+                onNavigate={setActiveModule}
+                collapsed={sidebarCollapsed}
+                onToggleCollapse={() =>
+                    setSidebarCollapsed((prev) => !prev)
+                }
+            />
+            <main>{renderizeModule()}</main>
+            <Footer />
+        </div>
     );
 }
 
