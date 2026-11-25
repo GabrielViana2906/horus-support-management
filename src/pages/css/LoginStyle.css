@@ -391,3 +391,9 @@ footer {
     font-size: 12px;
     text-align: center;
 }
+.erro-campo {
+    color: #d93025;
+    font-size: 12px;
+    margin-top: 4px;
+    display: block;
+}
