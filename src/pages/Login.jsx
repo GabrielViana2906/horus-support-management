@@ -7,8 +7,101 @@ function Login() {
     const navigate = useNavigate();
     const [lembrar, setLembrar] = useLocalStorage('horus:lembrar', false);
     const [emailSalvo, setEmailSalvo] = useLocalStorage('horus:email', '');
+    const [perfil, setPerfil] = useState('agent'); // 'agent' ou 'customer'
     const [email, setEmail] = useState(lembrar ? emailSalvo : '');
     const [password, setPassword] = useState('');
+    const [erros, setErros] = useState({ email: '', password: '', geral: '' });
+
+    function validar() {
+        const novosErros = { email: '', password: '', geral: '' };
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email.trim()) {
+            novosErros.email = 'Informe seu e-mail.';
+        } else if (!emailRegex.test(email)) {
+            novosErros.email = 'Digite um e-mail válido (ex: nome@empresa.com).';
+        }
+
+        if (!password) {
+            novosErros.password = 'Informe sua senha.';
+        } else if (password.length < 6) {
+            novosErros.password = 'A senha deve ter pelo menos 6 caracteres.';
+        }
+
+        setErros(novosErros);
+        return !novosErros.email && !novosErros.password;
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+
+        if (!validar()) return;
+
+        // Por enquanto só acesso de agente está habilitado
+        if (perfil !== 'agent') {
+            setErros((prev) => ({
+                ...prev,
+                geral: 'O acesso de cliente ainda não está disponível.'
+            }));
+            return;
+        }
+
+        const rawAgent = localStorage.getItem('agent');
+
+        if (!rawAgent) {
+            setErros((prev) => ({
+                ...prev,
+                geral: 'Nenhum usuário do tipo agente encontrado.'
+            }));
+            return;
+        }
+
+        let agent;
+        try {
+            agent = JSON.parse(rawAgent);
+        } catch {
+            setErros((prev) => ({
+                ...prev,
+                geral: 'Dados de agente inválidos no armazenamento.'
+            }));
+            return;
+        }
+
+        if (!agent || agent.role !== 'agent') {
+            setErros((prev) => ({
+                ...prev,
+                geral: 'Este usuário não é do tipo agente.'
+            }));
+            return;
+        }
+
+        const emailDigitado = email.trim().toLowerCase();
+        const emailSalvoAgent = (agent.email || '').trim().toLowerCase();
+
+        if (emailSalvoAgent !== emailDigitado) {
+            setErros((prev) => ({
+                ...prev,
+                email: 'E-mail de agente não encontrado.'
+            }));
+            return;
+        }
+
+        if (agent.password !== password) {
+            setErros((prev) => ({
+                ...prev,
+                password: 'Senha incorreta.'
+            }));
+            return;
+        }
+
+        if (lembrar) {
+            setEmailSalvo(email.trim());
+        } else {
+            setEmailSalvo('');
+        }
+
+        navigate('/home');
+    }
 
     return (
         <div className="login-page">
@@ -22,7 +115,14 @@ function Login() {
                 <section className="login-card">
 
                     <div className="login-user-type">
-                        <button type="button" className="tipo-login active">
+                        <button
+                            type="button"
+                            className={`tipo-login ${perfil === 'agent' ? 'active' : ''}`}
+                            onClick={() => {
+                                setPerfil('agent');
+                                setErros({ email: '', password: '', geral: '' });
+                            }}
+                        >
                             <img
                                 src="assets/shield.png"
                                 alt="shield"
@@ -31,7 +131,14 @@ function Login() {
                             Sou Agente
                         </button>
 
-                        <button type="button" className="tipo-login">
+                        <button
+                            type="button"
+                            className={`tipo-login ${perfil === 'customer' ? 'active' : ''}`}
+                            onClick={() => {
+                                setPerfil('customer');
+                                setErros({ email: '', password: '', geral: '' });
+                            }}
+                        >
                             <img
                                 src="assets/briefcase.png"
                                 alt="briefcase"
@@ -56,17 +163,12 @@ function Login() {
                         <span></span>
                     </div>
 
-                    <form className="login-form" onSubmit={(event) => {
-                        event.preventDefault();
-
-                        if (lembrar) {
-                            setEmailSalvo(email);
-                        } else {
-                            setEmailSalvo('');
-                        }
-
-                                navigate('/home');
-                        }}>
+                    <form
+                        className="login-form"
+                        noValidate
+                        onSubmit={handleSubmit}
+                    >
+                        {erros.geral && <span className="erro-campo">{erros.geral}</span>}
 
                         <div className="form-group">
                             <label htmlFor="email">E-mail Corporativo</label>
@@ -74,14 +176,14 @@ function Login() {
                             <div className="input-container">
                                 <i className="fa-solid fa-at"></i>
                                 <input
-                                      type="email"
+                                    type="email"
                                     id="email"
                                     placeholder="seu.email@empresa.com"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    required
                                 />
                             </div>
+                            {erros.email && <span className="erro-campo">{erros.email}</span>}
                         </div>
 
                         <div className="form-group">
@@ -101,15 +203,16 @@ function Login() {
                                     placeholder="Digite sua senha"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    required
                                 />
                             </div>
+                            {erros.password && <span className="erro-campo">{erros.password}</span>}
                         </div>
 
                         <label className="remember-option">
-                            <input type="checkbox"npm run dev
-                            checked={lembrar}
-                            onChange={(e) => setLembrar(e.target.checked)}
+                            <input
+                                type="checkbox"
+                                checked={lembrar}
+                                onChange={(e) => setLembrar(e.target.checked)}
                             />
                             <span>Lembrar deste computador</span>
                         </label>
@@ -118,7 +221,7 @@ function Login() {
                             Acessar Workspace
                         </button>
 
-                        <button type="button" className="register-button">
+                        <button type="button" className="register-button" onClick={() => navigate('/cadastro')}>
                             Não possui conta? Clique aqui para se cadastrar
                         </button>
 
